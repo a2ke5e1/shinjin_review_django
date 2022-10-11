@@ -21,17 +21,15 @@ import {Placeholder} from "@tiptap/extension-placeholder";
 
 
 interface TiptapProps {
-    readOnly: boolean
+    readonly: boolean
+    content: any
 }
 
 
-export default function Tiptap(
-    {
-        readOnly
-    }: TiptapProps
-) {
+export default function Tiptap({readonly, content}: TiptapProps) {
 
-    const [editable] = useState(!readOnly)
+
+    const [ editable, setEditable ] = useState(!readonly)
 
 
 
@@ -49,7 +47,6 @@ export default function Tiptap(
             }),
             Link,
             Underline,
-            Heading,
             TextStyle,
             Highlight.configure(
                 {
@@ -66,9 +63,6 @@ export default function Tiptap(
                     class: styles["img"],
                 }
             }),
-            Paragraph,
-            Dropcursor,
-            HorizontalRule,
             Youtube.configure({
                 inline: false,
                 HTMLAttributes: {
@@ -91,12 +85,13 @@ export default function Tiptap(
 
 
         ],
-
-
+        injectCSS: false,
+        content: content,
         onUpdate: ({editor}) => {
-            const json = editor.getJSON()
-            // send the content to an API here
-            window.localStorage.setItem("docs", JSON.stringify(json))
+            if (!readonly) {
+                const json = editor.getJSON()
+                window.localStorage.setItem("docs", JSON.stringify(json))
+            }
         }
     })
 
@@ -110,102 +105,101 @@ export default function Tiptap(
     }, [editor])
 
 
-
     return (
         <>
-            <div>
-                            <button
-                                onClick={() => editor?.chain().focus().toggleBold().run()}
-                                disabled={
-                                    !editor?.can()
-                                        .chain()
-                                        .focus()
-                                        .toggleBold()
-                                        .run()
-                                }
-                                className={editor?.isActive('bold') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                            >
-                                B
-                            </button>
-                            <button
-                                onClick={() => editor?.chain().focus().toggleItalic().run()}
-                                disabled={
-                                    !editor?.can()
-                                        .chain()
-                                        .focus()
-                                        .toggleItalic()
-                                        .run()
-                                }
-                                className={editor?.isActive('italic') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                            >
-                                I
-                            </button>
-                            <button
-                                onClick={() => editor?.chain().focus().toggleUnderline().run()}
-                                disabled={
-                                    !editor?.can()
-                                        .chain()
-                                        .focus()
-                                        .toggleUnderline()
-                                        .run()
-                                }
-                                className={editor?.isActive('underline') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                            >
-                                <u>U</u>
-                            </button>
-                            <div>
-                                <button
-                                    onClick={() => editor?.chain().focus().toggleHeading({level: 1}).run()}
-                                    disabled={
-                                        !editor?.can()
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({level: 1})
-                                            .run()
-                                    }
-                                    className={editor?.isActive('heading', {level: 1}) ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                                >
-                                    H1
-                                </button>
-                            </div>
-                            <div>
-                                <input
-                                    type="color"
-                                    onInput={event => editor?.chain().focus().setColor(event.target.value).run()}
-                                    value={editor?.getAttributes('textStyle').color}
-                                />
-                                <button
-                                    onClick={() => editor?.chain().focus().toggleHighlight().run()}
-                                    className={editor?.isActive('highlight') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                                >
-                                    <mark>A</mark>
-                                </button>
-                                <button onClick={addImage}>Add Image</button>
-                                <button onClick={() => {
-                                    editor?.commands.setHorizontalRule()
-                                }}>Add Ruller
-                                </button>
-                                <button onClick={() => {
-                                    editor?.commands.setYoutubeVideo({
-                                        src: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                                    })
-                                }}>
-                                    Youtube Video
-                                </button>
-                                <button onClick={
-                                    () => {
-                                        editor?.commands.setFontFamily('Inter')
-                                    }
-                                }>
-                                    Font Test
-                                </button>
-                            </div>
-                            <div>
-                                {editor?.storage.characterCount.characters()}
-                            </div>
-                        </div>
+            { editable && <div>
+                <button
+                    onClick={() => editor?.chain().focus().toggleBold().run()}
+                    disabled={
+                        !editor?.can()
+                            .chain()
+                            .focus()
+                            .toggleBold()
+                            .run()
+                    }
+                    className={editor?.isActive('bold') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                >
+                    B
+                </button>
+                <button
+                    onClick={() => editor?.chain().focus().toggleItalic().run()}
+                    disabled={
+                        !editor?.can()
+                            .chain()
+                            .focus()
+                            .toggleItalic()
+                            .run()
+                    }
+                    className={editor?.isActive('italic') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                >
+                    I
+                </button>
+                <button
+                    onClick={() => editor?.chain().focus().toggleUnderline().run()}
+                    disabled={
+                        !editor?.can()
+                            .chain()
+                            .focus()
+                            .toggleUnderline()
+                            .run()
+                    }
+                    className={editor?.isActive('underline') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                >
+                    <u>U</u>
+                </button>
+                <div>
+                    <button
+                        onClick={() => editor?.chain().focus().toggleHeading({level: 1}).run()}
+                        disabled={
+                            !editor?.can()
+                                .chain()
+                                .focus()
+                                .toggleHeading({level: 1})
+                                .run()
+                        }
+                        className={editor?.isActive('heading', {level: 1}) ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                    >
+                        H1
+                    </button>
+                </div>
+                <div>
+                    <input
+                        type="color"
+                        onInput={event => editor?.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
+                        value={editor?.getAttributes('textStyle').color}
+                    />
+                    <button
+                        onClick={() => editor?.chain().focus().toggleHighlight().run()}
+                        className={editor?.isActive('highlight') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                    >
+                        <mark>A</mark>
+                    </button>
+                    <button onClick={addImage}>Add Image</button>
+                    <button onClick={() => {
+                        editor?.commands.setHorizontalRule()
+                    }}>Add Ruller
+                    </button>
+                    <button onClick={() => {
+                        editor?.commands.setYoutubeVideo({
+                            src: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                        })
+                    }}>
+                        Youtube Video
+                    </button>
+                    <button onClick={
+                        () => {
+                            editor?.commands.setFontFamily('Inter')
+                        }
+                    }>
+                        Font Test
+                    </button>
+                </div>
+                <div>
+                    {editor?.storage.characterCount.characters()}
+                </div>
+            </div> }
 
-            <EditorContent editor={editor}/>
+            <EditorContent  className={editable ? "" : "test" } editor={editor}/>
 
 
         </>

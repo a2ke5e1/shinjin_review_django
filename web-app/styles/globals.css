@@ -18,6 +18,15 @@ body {
     border-radius: 4px;
 }
 
+.test > .ProseMirror {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border-radius: 0;
+    min-width: 40vw;
+    width: 40vw;
+}
+
 .ProseMirror-focused {
     border: none;
     outline: none;

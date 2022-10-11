@@ -16,7 +16,7 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                 <Tiptap readOnly={false} />
+                <Tiptap readonly={false} content={""} />
             </main>
 
 

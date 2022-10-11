@@ -3,9 +3,19 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Tiptap from "../component/Tiptap";
+import parser from "html-react-parser"
+import {useEffect, useState} from "react";
 
 const Home: NextPage = () => {
 
+    const [ postData, setPostData ] = useState("")
+
+    useEffect(()=> {
+        const data = window.localStorage.getItem("docs")
+        if (data != null) {
+            setPostData(data)
+        }
+    }, [postData])
 
     return (
         <div>
@@ -16,7 +26,9 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                 <Tiptap readOnly={true} />
+                {
+                    postData == "" ? "" :  <Tiptap readonly={true} content={JSON.parse(postData)} />
+                }
             </main>
 
 
