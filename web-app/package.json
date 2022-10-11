@@ -1,0 +1,39 @@
+{
+  "name": "web-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tiptap/extension-character-count": "^2.0.0-beta.199",
+    "@tiptap/extension-color": "^2.0.0-beta.199",
+    "@tiptap/extension-font-family": "^2.0.0-beta.199",
+    "@tiptap/extension-heading": "^2.0.0-beta.199",
+    "@tiptap/extension-highlight": "^2.0.0-beta.199",
+    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.199",
+    "@tiptap/extension-image": "^2.0.0-beta.199",
+    "@tiptap/extension-link": "^2.0.0-beta.199",
+    "@tiptap/extension-placeholder": "^2.0.0-beta.199",
+    "@tiptap/extension-text-align": "^2.0.0-beta.199",
+    "@tiptap/extension-text-style": "^2.0.0-beta.199",
+    "@tiptap/extension-underline": "^2.0.0-beta.199",
+    "@tiptap/extension-youtube": "^2.0.0-beta.199",
+    "@tiptap/react": "^2.0.0-beta.199",
+    "@tiptap/starter-kit": "^2.0.0-beta.199",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.8.4",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1",
+    "typescript": "4.8.4"
+  }
+}
