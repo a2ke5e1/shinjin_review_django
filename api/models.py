@@ -9,8 +9,12 @@ class Comment(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    post = models.ManyToManyField('Post')
+    description = models.TextField(blank=True, null=True)
+    post = models.ManyToManyField('Post', blank=True)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class Post(models.Model):
 
