@@ -1,19 +1,15 @@
-import {useEditor, EditorContent, EditorContentState} from '@tiptap/react'
+import {EditorContent, useEditor} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import {Link} from "@tiptap/extension-link"
 import styles from "../styles/Editor.module.css"
 import {Underline} from "@tiptap/extension-underline";
-import {Heading} from "@tiptap/extension-heading";
 import {TextAlign} from "@tiptap/extension-text-align";
 import {Color} from "@tiptap/extension-color";
 import {TextStyle} from "@tiptap/extension-text-style";
 import {Highlight} from "@tiptap/extension-highlight";
 import {Image} from "@tiptap/extension-image";
-import {Paragraph} from "@tiptap/extension-paragraph";
 import {Document} from "@tiptap/extension-document";
-import {Dropcursor} from "@tiptap/extension-dropcursor";
-import {useCallback, useEffect, useState} from "react";
-import {HorizontalRule} from "@tiptap/extension-horizontal-rule";
+import {useCallback, useState} from "react";
 import {Youtube} from "@tiptap/extension-youtube";
 import {FontFamily} from "@tiptap/extension-font-family";
 import {CharacterCount} from "@tiptap/extension-character-count";
