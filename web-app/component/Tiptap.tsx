@@ -1,93 +1,32 @@
 import {EditorContent, useEditor} from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import {Link} from "@tiptap/extension-link"
 import styles from "../styles/Editor.module.css"
-import {Underline} from "@tiptap/extension-underline";
-import {TextAlign} from "@tiptap/extension-text-align";
-import {Color} from "@tiptap/extension-color";
-import {TextStyle} from "@tiptap/extension-text-style";
-import {Highlight} from "@tiptap/extension-highlight";
-import {Image} from "@tiptap/extension-image";
-import {Document} from "@tiptap/extension-document";
-import {useCallback, useState} from "react";
-import {Youtube} from "@tiptap/extension-youtube";
-import {FontFamily} from "@tiptap/extension-font-family";
-import {CharacterCount} from "@tiptap/extension-character-count";
-import {Placeholder} from "@tiptap/extension-placeholder";
+import {useCallback} from "react";
+import Extensions from "./TipTapExtensions"
 
 
-interface TiptapProps {
-    readonly: boolean
-    content: any
-}
+export default function Tiptap() {
 
-
-export default function Tiptap({readonly, content}: TiptapProps) {
-
-
-    const [ editable, setEditable ] = useState(!readonly)
-
-
-
-
-    const CustomDocument = Document.extend({
-        content: 'heading horizontalRule paragraph block*',
-    })
 
     const editor = useEditor({
-        editable,
-        extensions: [
-            CustomDocument,
-            StarterKit.configure({
-                document: false
-            }),
-            Link,
-            Underline,
-            TextStyle,
-            Highlight.configure(
-                {
-                    multicolor: true
-                }
-            ),
-            TextAlign.configure({
-                types: ['heading', 'paragraph'],
-            }),
-            Color,
-            Image.configure({
-                inline: true,
-                HTMLAttributes: {
-                    class: styles["img"],
-                }
-            }),
-            Youtube.configure({
-                inline: false,
-                HTMLAttributes: {
-                    class: styles["yt-player"],
-                }
-            }),
-            FontFamily.configure({
-                types: ['textStyle'],
-            }),
-            CharacterCount,
-            Placeholder.configure({
-                placeholder: ({node}) => {
-                    if (node.type.name === 'heading') {
-                        return 'What’s the title?'
-                    }
-
-                    return 'Content?'
-                },
-            })
-
-
-        ],
+        extensions: Extensions,
         injectCSS: false,
-        content: content,
         onUpdate: ({editor}) => {
-            if (!readonly) {
-                const json = editor.getJSON()
-                window.localStorage.setItem("docs", JSON.stringify(json))
-            }
+            const json = editor.getJSON()
+
+            window.localStorage.setItem("docs", JSON.stringify(json))
+            // @ts-ignore
+            var t = ""
+            json.content?.at(0).content.forEach (
+                (e) => {
+                    t += e.text
+                }
+            )
+            window.localStorage.setItem("metadata", JSON.stringify(
+                {
+                    "title": t
+                }
+            ))
+
         }
     })
 
@@ -103,7 +42,7 @@ export default function Tiptap({readonly, content}: TiptapProps) {
 
     return (
         <>
-            { editable && <div>
+            <div>
                 <button
                     onClick={() => editor?.chain().focus().toggleBold().run()}
                     disabled={
@@ -193,9 +132,9 @@ export default function Tiptap({readonly, content}: TiptapProps) {
                 <div>
                     {editor?.storage.characterCount.characters()}
                 </div>
-            </div> }
+            </div>
 
-            <EditorContent  className={editable ? "" : "test" } editor={editor}/>
+            <EditorContent editor={editor}/>
 
 
         </>
