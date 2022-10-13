@@ -1,36 +1,30 @@
 import {NextPage} from "next";
 import axios from "axios";
-
-interface test{
-    results : Array<CategoriesElement>
-}
-
-interface CategoriesElement {
-    url: string,
-    name: string,
-    description: string,
-    post : Array<any>
-}
+import CategoriesProps, {CategoriesResponse} from "../../props/CategoryProps";
+import Link from "next/link";
 
 
 
-function Categories({categories} : test) {
+function Categories({categories}: CategoriesResponse) {
     return (
         <div>
-            {categories.map((element: CategoriesElement) => {
+            {categories.map((element: CategoriesProps) => {
                 return (
                     <div key={element.name}>
                         <div>
-                            {
-                                element.name
-                            }
+                            <Link href={`categories/${element.slug}`}>
+                                {
+                                    element.name
+                                }
+                            </Link>
                         </div>
                         <div>
                             {
                                 element.description
                             }
                         </div>
-                        <br />
+
+                        <br/>
                     </div>
                 )
             })}
