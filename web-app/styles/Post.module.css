@@ -1,0 +1,13 @@
+.blog {
+
+}
+
+.blog  > div {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    margin: 20px auto;
+    max-width: 50%;
+    min-width: 400px;
+    padding: 20px;
+}

@@ -10,7 +10,9 @@ export default props => {
     return (
         <NodeViewWrapper className="react-component">
             <div className="content">
-                <Tweet tweetId={props.node.attrs.src} />
+                <Tweet tweetId={props.node.attrs.src}
+                    options={{ align: props.node.attrs.align }}
+                />
             </div>
         </NodeViewWrapper>
     )

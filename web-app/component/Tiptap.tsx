@@ -16,11 +16,16 @@ export default function Tiptap() {
             window.localStorage.setItem("docs", JSON.stringify(json))
             // @ts-ignore
             var t = ""
-            json.content?.at(0).content.forEach (
-                (e) => {
-                    t += e.text
-                }
-            )
+            try {
+                // @ts-ignore
+                json.content?.at(0).content.forEach(
+                    (e) => {
+                        t += e.text
+                    }
+                )
+            } catch (e) {
+
+            }
             window.localStorage.setItem("metadata", JSON.stringify(
                 {
                     "title": t
@@ -39,59 +44,59 @@ export default function Tiptap() {
         }
     }, [editor])
 
-     const addTweet = useCallback(() => {
+    const addTweet = useCallback(() => {
         const url = window.prompt('Tweet ID')
 
         if (url) {
-            editor?.chain().focus().setUrl({src: url}).run()
+            editor?.chain().focus().setUrl({src: url, align: "center"}).run()
         }
     }, [editor])
 
 
-
-
     return (
-        <>
-            <div>
-                <button
-                    onClick={() => editor?.chain().focus().toggleBold().run()}
-                    disabled={
-                        !editor?.can()
-                            .chain()
-                            .focus()
-                            .toggleBold()
-                            .run()
-                    }
-                    className={editor?.isActive('bold') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                >
-                    B
-                </button>
-                <button
-                    onClick={() => editor?.chain().focus().toggleItalic().run()}
-                    disabled={
-                        !editor?.can()
-                            .chain()
-                            .focus()
-                            .toggleItalic()
-                            .run()
-                    }
-                    className={editor?.isActive('italic') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                >
-                    I
-                </button>
-                <button
-                    onClick={() => editor?.chain().focus().toggleUnderline().run()}
-                    disabled={
-                        !editor?.can()
-                            .chain()
-                            .focus()
-                            .toggleUnderline()
-                            .run()
-                    }
-                    className={editor?.isActive('underline') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                >
-                    <u>U</u>
-                </button>
+        <div className={styles["main-container"]}>
+            <div className={styles["tools-container"]}>
+                <div>
+                    <button
+                        onClick={() => editor?.chain().focus().toggleBold().run()}
+                        disabled={
+                            !editor?.can()
+                                .chain()
+                                .focus()
+                                .toggleBold()
+                                .run()
+                        }
+                        className={editor?.isActive('bold') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                    >
+                        B
+                    </button>
+                    <button
+                        onClick={() => editor?.chain().focus().toggleItalic().run()}
+                        disabled={
+                            !editor?.can()
+                                .chain()
+                                .focus()
+                                .toggleItalic()
+                                .run()
+                        }
+                        className={editor?.isActive('italic') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                    >
+                        I
+                    </button>
+                    <button
+                        onClick={() => editor?.chain().focus().toggleUnderline().run()}
+                        disabled={
+                            !editor?.can()
+                                .chain()
+                                .focus()
+                                .toggleUnderline()
+                                .run()
+                        }
+                        className={editor?.isActive('underline') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                    >
+                        <u>U</u>
+                    </button>
+                </div>
                 <div>
                     <button
                         onClick={() => editor?.chain().focus().toggleHeading({level: 1}).run()}
@@ -119,6 +124,15 @@ export default function Tiptap() {
                     >
                         <mark>A</mark>
                     </button>
+                    <button onClick={
+                        () => {
+                            editor?.commands.setFontFamily('Inter')
+                        }
+                    }>
+                        Font Test
+                    </button>
+                </div>
+                <div>
                     <button onClick={addImage}>Add Image</button>
                     <button onClick={() => {
                         editor?.commands.setHorizontalRule()
@@ -133,27 +147,21 @@ export default function Tiptap() {
                     </button>
                     <button onClick={
                         () => {
-                            editor?.commands.setFontFamily('Inter')
+                            addTweet()
                         }
                     }>
-                        Font Test
+                        Add Tweet
                     </button>
                 </div>
-                <div>
-                    {editor?.storage.characterCount.characters()}
-                </div>
             </div>
-            <button onClick={
-                ()=> {
-                   addTweet()
-                }
-            }>
-                Test
-            </button>
 
-            <EditorContent editor={editor}/>
+            <div className={styles["editor-container"]}>
+                <EditorContent editor={editor}/>
+            </div>
+            <div className={styles["editor-other-info"]}>
+                {editor?.storage.characterCount.characters()} Characters
+            </div>
 
-
-        </>
+        </div>
     )
 }

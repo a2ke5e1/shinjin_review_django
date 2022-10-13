@@ -1,10 +1,9 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import parser from "html-react-parser"
-import {useEffect, useMemo, useState} from "react";
-import {generateHTML} from "@tiptap/core";
+import {useEffect, useState} from "react";
 import Extensions from '../component/TipTapExtensions'
 import {EditorContent, useEditor} from "@tiptap/react";
+import styles from '../styles/Post.module.css'
 
 interface MetaData {
     title: string,
@@ -44,9 +43,8 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                <div>
+                <div className={styles["blog"]}>
                     <EditorContent editor={editor}/>
-
                 </div>
             </main>
 

@@ -9,7 +9,7 @@ declare module '@tiptap/core' {
             /**
              * Add an twitter
              */
-            setUrl: (options: { src: string }) => ReturnType,
+            setUrl: (options: { src: string, align: string }) => ReturnType,
         }
     }
 }
@@ -17,13 +17,15 @@ declare module '@tiptap/core' {
 export const Twitter = Node.create({
     name: 'twitter',
     group: 'block',
-    atom: true,
     draggable: true,
 
     addAttributes() {
         return {
             src: {
                 default: null,
+            },
+            align: {
+                default: "center",
             },
         }
     },
@@ -35,7 +37,7 @@ export const Twitter = Node.create({
                     type: this.name,
                     attrs: options
                 })
-            }
+            },
         }
     },
 
