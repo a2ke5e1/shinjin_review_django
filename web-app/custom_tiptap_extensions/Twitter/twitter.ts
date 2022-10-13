@@ -4,34 +4,36 @@ import twitterComponent from "./TwitterComponent";
 
 
 declare module '@tiptap/core' {
-  interface Commands<ReturnType> {
-    twitter: {
-      /**
-       * Add an twitter
-       */
-      setUrl: () => ReturnType,
+    interface Commands<ReturnType> {
+        twitter: {
+            /**
+             * Add an twitter
+             */
+            setUrl: (options: { src: string }) => ReturnType,
+        }
     }
-  }
 }
 
 export const Twitter = Node.create({
     name: 'twitter',
     group: 'block',
     atom: true,
+    draggable: true,
 
     addAttributes() {
         return {
-            count: {
-                default: 0,
+            src: {
+                default: null,
             },
         }
     },
 
     addCommands() {
         return {
-            setUrl: ( { commands})=> {
-                return commands.insertContent( {
-                    type: this.name
+            setUrl: options => ({commands}) => {
+                return commands.insertContent({
+                    type: this.name,
+                    attrs: options
                 })
             }
         }

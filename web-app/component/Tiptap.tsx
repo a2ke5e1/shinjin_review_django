@@ -9,12 +9,9 @@ export default function Tiptap() {
 
     const editor = useEditor({
         extensions: Extensions,
-        content: '<h1>test</h1><hr><p>test</p><react-component count="0"></react-component>'
-        ,
         onUpdate: ({editor}) => {
             const json = editor.getJSON()
 
-            editor.get
 
             window.localStorage.setItem("docs", JSON.stringify(json))
             // @ts-ignore
@@ -39,6 +36,14 @@ export default function Tiptap() {
 
         if (url) {
             editor?.chain().focus().setImage({src: url}).run()
+        }
+    }, [editor])
+
+     const addTweet = useCallback(() => {
+        const url = window.prompt('Tweet ID')
+
+        if (url) {
+            editor?.chain().focus().setUrl({src: url}).run()
         }
     }, [editor])
 
@@ -140,7 +145,7 @@ export default function Tiptap() {
             </div>
             <button onClick={
                 ()=> {
-                    editor?.commands.setUrl()
+                   addTweet()
                 }
             }>
                 Test
