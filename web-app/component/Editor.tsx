@@ -11,6 +11,7 @@ export default function TestEditor({content, setContent}) {
     const editor = useRef(null)
     const test = parse(content)
 
+
     return (
         <>
             <JoditEditor ref={editor} value={content} onChange={newContent => {

@@ -9,9 +9,12 @@ export default function Tiptap() {
 
     const editor = useEditor({
         extensions: Extensions,
-        injectCSS: false,
+        content: '<h1>test</h1><hr><p>test</p><react-component count="0"></react-component>'
+        ,
         onUpdate: ({editor}) => {
             const json = editor.getJSON()
+
+            editor.get
 
             window.localStorage.setItem("docs", JSON.stringify(json))
             // @ts-ignore
@@ -38,6 +41,8 @@ export default function Tiptap() {
             editor?.chain().focus().setImage({src: url}).run()
         }
     }, [editor])
+
+
 
 
     return (
@@ -133,6 +138,13 @@ export default function Tiptap() {
                     {editor?.storage.characterCount.characters()}
                 </div>
             </div>
+            <button onClick={
+                ()=> {
+                    editor?.commands.setUrl()
+                }
+            }>
+                Test
+            </button>
 
             <EditorContent editor={editor}/>
 

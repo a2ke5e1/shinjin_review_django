@@ -4,6 +4,7 @@ import parser from "html-react-parser"
 import {useEffect, useMemo, useState} from "react";
 import {generateHTML} from "@tiptap/core";
 import Extensions from '../component/TipTapExtensions'
+import {EditorContent, useEditor} from "@tiptap/react";
 
 interface MetaData {
     title: string,
@@ -13,40 +14,26 @@ interface MetaData {
 
 const Home: NextPage = () => {
 
-    const [getBlog, setBlog] = useState("")
-    const [metadata, setMetadata] = useState<MetaData|undefined>(undefined)
+    const [metadata, setMetadata] = useState<MetaData | undefined>(undefined)
 
-
+    const editor = useEditor({
+        editable: false,
+        extensions: Extensions,
+    })
 
     useEffect(() => {
         const data = window.localStorage.getItem("docs")
         const metaDataLocal = window.localStorage.getItem("metadata")
-        if (data != null) {
-            setBlog(data)
+        if (data != null && metaDataLocal != "") {
+            editor?.commands.setContent(JSON.parse(data))
         }
 
         if (metaDataLocal != null && metaDataLocal != "") {
             setMetadata(JSON.parse(metaDataLocal))
         }
 
-    }, [getBlog, metadata])
+    }, [metadata])
 
-    const test = useMemo(() => {
-
-        try {
-            var json = JSON.parse(getBlog)
-
-
-
-            return generateHTML(
-                json, Extensions
-            )
-        } catch (ex) {
-            return "<p></p>"
-        }
-    }, [getBlog])
-
-    var te = parser(test)
 
     return (
         <div>
@@ -58,9 +45,8 @@ const Home: NextPage = () => {
 
             <main>
                 <div>
-                    {
-                        te
-                    }
+                    <EditorContent editor={editor}/>
+
                 </div>
             </main>
 

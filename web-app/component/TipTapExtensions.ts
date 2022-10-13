@@ -12,9 +12,10 @@ import {Youtube} from "@tiptap/extension-youtube";
 import {FontFamily} from "@tiptap/extension-font-family";
 import {CharacterCount} from "@tiptap/extension-character-count";
 import {Placeholder} from "@tiptap/extension-placeholder";
+import {Twitter} from "../custom_tiptap_extensions/Twitter/twitter";
 
 const CustomDocument = Document.extend({
-    content: 'heading horizontalRule paragraph block*',
+    content: 'heading horizontalRule paragraph  block*',
 })
 
 
@@ -59,7 +60,8 @@ export default [
 
             return 'Content?'
         },
-    })
+    }),
+    Twitter
 
 
 ]
