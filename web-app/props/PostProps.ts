@@ -1,4 +1,6 @@
-
+export interface PostResponse {
+    post : PostProps
+}
 
 export default interface PostProps {
     url: string,

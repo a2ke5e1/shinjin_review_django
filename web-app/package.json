@@ -20,6 +20,7 @@
     "@tiptap/extension-placeholder": "^2.0.0-beta.199",
     "@tiptap/extension-text-align": "^2.0.0-beta.199",
     "@tiptap/extension-text-style": "^2.0.0-beta.199",
+    "@tiptap/extension-typography": "^2.0.0-beta.199",
     "@tiptap/extension-underline": "^2.0.0-beta.199",
     "@tiptap/extension-youtube": "^2.0.0-beta.199",
     "@tiptap/react": "^2.0.0-beta.199",

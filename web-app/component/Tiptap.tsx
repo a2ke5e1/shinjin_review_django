@@ -159,7 +159,8 @@ export default function Tiptap() {
                 <EditorContent editor={editor}/>
             </div>
             <div className={styles["editor-other-info"]}>
-                {editor?.storage.characterCount.characters()} Characters
+                {editor?.storage.characterCount.characters()} Characters<br/>
+                {editor?.storage.characterCount.words()} Words
             </div>
 
         </div>

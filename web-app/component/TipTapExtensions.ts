@@ -13,6 +13,7 @@ import {FontFamily} from "@tiptap/extension-font-family";
 import {CharacterCount} from "@tiptap/extension-character-count";
 import {Placeholder} from "@tiptap/extension-placeholder";
 import {Twitter} from "../custom_tiptap_extensions/Twitter/twitter";
+import {Typography} from "@tiptap/extension-typography";
 
 const CustomDocument = Document.extend({
     content: 'heading horizontalRule paragraph  block*',
@@ -26,6 +27,7 @@ export default [
     }),
     Link,
     Underline,
+    Typography,
     TextStyle,
     Highlight.configure(
         {

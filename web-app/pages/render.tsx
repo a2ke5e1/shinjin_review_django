@@ -1,6 +1,6 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import Extensions from '../component/TipTapExtensions'
 import {EditorContent, useEditor} from "@tiptap/react";
 import styles from '../styles/Post.module.css'
@@ -22,16 +22,17 @@ const Home: NextPage = () => {
 
     useEffect(() => {
         const data = window.localStorage.getItem("docs")
-        const metaDataLocal = window.localStorage.getItem("metadata")
-        if (data != null && metaDataLocal != "") {
+        if (data != null) {
             editor?.commands.setContent(JSON.parse(data))
         }
+    }, [metadata])
 
+    useEffect(() => {
+        const metaDataLocal = window.localStorage.getItem("metadata")
         if (metaDataLocal != null && metaDataLocal != "") {
             setMetadata(JSON.parse(metaDataLocal))
         }
-
-    }, [metadata])
+    }, [])
 
 
     return (
