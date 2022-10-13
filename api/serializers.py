@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from api.models import  Post, Comment, Category
+from django.core import serializers as coreserializers
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,9 +21,12 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Category
+        depth = 1
         fields = '__all__'
+
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post

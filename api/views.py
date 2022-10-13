@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
 from api.serializers import UserSerializer, GroupSerializer, CommentSerializer, PostSerializer, CategorySerializer
 from api.models import Comment, Post, Category
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,8 +18,10 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by('-last_updated')
     serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['slug']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
@@ -31,4 +34,6 @@ class CommentViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['slug']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
