@@ -1,11 +1,39 @@
 import {EditorContent, useEditor} from '@tiptap/react'
 import styles from "../styles/Editor.module.css"
-import {useCallback} from "react";
+import {useCallback, useRef, useState} from "react";
 import Extensions from "./TipTapExtensions"
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 
 
 export default function Tiptap() {
 
+    const [open, setOpen] = useState(false);
+    const [tweetID, setTweetID] = useState<string>("");
+
+    const handleTweetTextChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
+        e.preventDefault()
+        setTweetID(e.target.value);
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleCancel = ()=> {
+        setTweetID("");
+        handleClose();
+    }
+
+    const handleSubmit = () => {
+        handleClose();
+        if (editor == null) {
+            return;
+        }
+        editor.chain().focus().setUrl({src: tweetID, align: "center"}).run();
+    }
 
     const editor = useEditor({
         extensions: Extensions,
@@ -41,14 +69,6 @@ export default function Tiptap() {
 
         if (url) {
             editor?.chain().focus().setImage({src: url}).run()
-        }
-    }, [editor])
-
-    const addTweet = useCallback(() => {
-        const url = window.prompt('Tweet ID')
-
-        if (url) {
-            editor?.chain().focus().setUrl({src: url, align: "center"}).run()
         }
     }, [editor])
 
@@ -146,9 +166,7 @@ export default function Tiptap() {
                         Youtube Video
                     </button>
                     <button onClick={
-                        () => {
-                            addTweet()
-                        }
+                       handleClickOpen
                     }>
                         Add Tweet
                     </button>
@@ -162,6 +180,30 @@ export default function Tiptap() {
                 {editor?.storage.characterCount.characters()} Characters<br/>
                 {editor?.storage.characterCount.words()} Words
             </div>
+
+
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Add Tweet</DialogTitle>
+                <DialogContent>
+                    <DialogContentText sx={{ mb : 2 }}>
+                        Enter the tweet ID of the tweet that you want to embed.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Tweet ID"
+                        type="text"
+                        fullWidth
+                        onChange={handleTweetTextChange}
+                        variant="outlined"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="text" color="inherit" onClick={handleCancel}>Cancel</Button>
+                    <Button onClick={handleSubmit}>Insert</Button>
+                </DialogActions>
+            </Dialog>
 
         </div>
     )

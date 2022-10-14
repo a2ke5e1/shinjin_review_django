@@ -8,7 +8,7 @@ export default props => {
 
 
     return (
-        <NodeViewWrapper className="react-component">
+        <NodeViewWrapper className="twitter-embed">
             <div className="content">
                 <Tweet tweetId={props.node.attrs.src}
                     options={{ align: props.node.attrs.align }}

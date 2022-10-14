@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.9",
     "@tiptap/extension-character-count": "^2.0.0-beta.199",
     "@tiptap/extension-color": "^2.0.0-beta.199",
     "@tiptap/extension-font-family": "^2.0.0-beta.199",

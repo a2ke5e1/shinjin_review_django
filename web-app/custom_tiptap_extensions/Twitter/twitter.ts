@@ -44,13 +44,13 @@ export const Twitter = Node.create({
     parseHTML() {
         return [
             {
-                tag: 'react-component',
+                tag: 'twitter-embed',
             },
         ]
     },
 
     renderHTML({HTMLAttributes}) {
-        return ['react-component', mergeAttributes(HTMLAttributes)]
+        return ['twitter-embed', mergeAttributes(HTMLAttributes)]
     },
 
     addNodeView() {
