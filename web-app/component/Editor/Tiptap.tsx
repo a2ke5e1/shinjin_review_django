@@ -1,39 +1,16 @@
-import {EditorContent, useEditor} from '@tiptap/react'
-import styles from "../styles/Editor.module.css"
+import {EditorContent, useEditor} from '@tiptap/react';
+import styles from "../../styles/Editor.module.css";
 import {useCallback, useRef, useState} from "react";
-import Extensions from "./TipTapExtensions"
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
+import Extensions from "./TipTapExtensions";
+import InsertDialogBox from "../DialogBox/InsertDialogBox";
 
 
 export default function Tiptap() {
 
-    const [open, setOpen] = useState(false);
-    const [tweetID, setTweetID] = useState<string>("");
+    const [twitterDialogBoxOpen, setTwitterDialogBoxOpen] = useState(false);
+    const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
 
-    const handleTweetTextChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
-        e.preventDefault()
-        setTweetID(e.target.value);
-    }
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleCancel = ()=> {
-        setTweetID("");
-        handleClose();
-    }
-
-    const handleSubmit = () => {
-        handleClose();
-        if (editor == null) {
-            return;
-        }
-        editor.chain().focus().setUrl({src: tweetID, align: "center"}).run();
-    }
 
     const editor = useEditor({
         extensions: Extensions,
@@ -158,16 +135,10 @@ export default function Tiptap() {
                         editor?.commands.setHorizontalRule()
                     }}>Add Ruller
                     </button>
-                    <button onClick={() => {
-                        editor?.commands.setYoutubeVideo({
-                            src: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                        })
-                    }}>
+                    <button onClick={()=> {setYoutubeDialogBoxOpen(true)}}>
                         Youtube Video
                     </button>
-                    <button onClick={
-                       handleClickOpen
-                    }>
+                    <button onClick={()=> {setTwitterDialogBoxOpen(true)}}>
                         Add Tweet
                     </button>
                 </div>
@@ -182,28 +153,26 @@ export default function Tiptap() {
             </div>
 
 
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add Tweet</DialogTitle>
-                <DialogContent>
-                    <DialogContentText sx={{ mb : 2 }}>
-                        Enter the tweet ID of the tweet that you want to embed.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Tweet ID"
-                        type="text"
-                        fullWidth
-                        onChange={handleTweetTextChange}
-                        variant="outlined"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="text" color="inherit" onClick={handleCancel}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Insert</Button>
-                </DialogActions>
-            </Dialog>
+            <InsertDialogBox
+                editor={editor}
+                getState={twitterDialogBoxOpen}
+                setState={setTwitterDialogBoxOpen}
+                title={"Add Tweet"}
+                message={"Enter the tweet ID of the tweet that you want to embed."}
+                label={"Tweet ID"}
+                insertBlock="twitter"
+            />
+
+            <InsertDialogBox
+                editor={editor}
+                getState={youtubeDialogBoxOpen}
+                setState={setYoutubeDialogBoxOpen}
+                title={"Add Youtube Video"}
+                message={"Enter the youtube URL of the youtube video that you want to embed."}
+                label={"URL"}
+                insertBlock="youtube"
+            />
+
 
         </div>
     )

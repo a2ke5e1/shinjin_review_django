@@ -1,7 +1,7 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
 import {useEffect, useMemo, useState} from "react";
-import Extensions from '../../component/TipTapExtensions'
+import Extensions from '../../component/Editor/TipTapExtensions'
 import {EditorContent, useEditor} from "@tiptap/react";
 import styles from '../../styles/Post.module.css'
 import {QueryProp} from "../../props/RoutingProps";

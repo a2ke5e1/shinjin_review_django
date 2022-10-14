@@ -7,12 +7,12 @@ import {Highlight} from "@tiptap/extension-highlight";
 import {TextAlign} from "@tiptap/extension-text-align";
 import {Color} from "@tiptap/extension-color";
 import {Image} from "@tiptap/extension-image";
-import styles from "../styles/Editor.module.css";
+import styles from "../../styles/Editor.module.css";
 import {Youtube} from "@tiptap/extension-youtube";
 import {FontFamily} from "@tiptap/extension-font-family";
 import {CharacterCount} from "@tiptap/extension-character-count";
 import {Placeholder} from "@tiptap/extension-placeholder";
-import {Twitter} from "../custom_tiptap_extensions/Twitter/twitter";
+import {Twitter} from "../../custom_tiptap_extensions/Twitter/twitter";
 import {Typography} from "@tiptap/extension-typography";
 
 const CustomDocument = Document.extend({
