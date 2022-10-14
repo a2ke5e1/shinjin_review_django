@@ -1,6 +1,6 @@
 import {EditorContent, useEditor} from '@tiptap/react';
 import styles from "../../styles/Editor.module.css";
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
 
@@ -9,7 +9,6 @@ export default function Tiptap() {
 
     const [twitterDialogBoxOpen, setTwitterDialogBoxOpen] = useState(false);
     const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
-
 
     const editor = useEditor({
         extensions: Extensions,
@@ -40,6 +39,38 @@ export default function Tiptap() {
     })
 
 
+    const handleInsertTwitterButton = () => {
+        setTwitterDialogBoxOpen(true);
+    }
+    const handleInsertYoutubeButton = () => {
+        setYoutubeDialogBoxOpen(true)
+    }
+    const handleInsertImageViewerButton = () => {
+
+        editor?.chain().focus().setImageViewerURLS(
+            {
+                src: [
+                    {
+                        url: "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                        alt: "TEST 1"
+                    },
+                    {
+                        url: "https://images.unsplash.com/photo-1665731372479-551841cac2c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                        alt: "TEST 2"
+                    },
+                    {
+                        url: "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                        alt: "TEST 3"
+                    },
+                ]
+            }
+        ).run()
+
+        editor?.commands.createParagraphNear()
+
+    }
+
+
     const addImage = useCallback(() => {
         const url = window.prompt('URL')
 
@@ -47,6 +78,38 @@ export default function Tiptap() {
             editor?.chain().focus().setImage({src: url}).run()
         }
     }, [editor])
+
+
+    const handleKeyPress = useCallback((event: KeyboardEvent) => {
+
+            console.log(event.key)
+
+         if (event.ctrlKey && event.shiftKey && event.key == "X") {
+            event.preventDefault()
+            handleInsertTwitterButton();
+        }
+
+        if (event.ctrlKey && event.shiftKey && event.key == "G") {
+            event.preventDefault()
+            handleInsertImageViewerButton();
+        }
+
+        if (event.ctrlKey && event.shiftKey && event.key == "Y") {
+            event.preventDefault()
+            handleInsertYoutubeButton();
+        }
+
+    }, [editor]);
+
+    useEffect(() => {
+        // attach the event listener
+        document.addEventListener('keydown', handleKeyPress);
+
+        // remove the event listener
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [handleKeyPress]);
 
 
     return (
@@ -134,41 +197,14 @@ export default function Tiptap() {
                         editor?.commands.setHorizontalRule()
                     }}>Add Ruller
                     </button>
-                    <button onClick={() => {
-                        setYoutubeDialogBoxOpen(true)
-                    }}>
+                    <button onClick={handleInsertYoutubeButton}>
                         Youtube Video
                     </button>
-                    <button onClick={() => {
-                        setTwitterDialogBoxOpen(true)
-                    }}>
+                    <button onClick={handleInsertTwitterButton}>
                         Add Tweet
                     </button>
 
-                    <button onClick={() => {
-
-                        editor?.chain().focus().setImageViewerURLS(
-                            {
-                                src: [
-                                    {
-                                        url: "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-                                        alt: "TEST 1"
-                                    },
-                                    {
-                                        url: "https://images.unsplash.com/photo-1665731372479-551841cac2c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-                                        alt: "TEST 2"
-                                    },
-                                    {
-                                        url: "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-                                        alt: "TEST 3"
-                                    },
-                                ]
-                            }
-                        ).run()
-
-                        editor?.commands.createParagraphNear()
-
-                    }}>
+                    <button onClick={handleInsertImageViewerButton}>
                         Add Image Viewer
                     </button>
                 </div>
