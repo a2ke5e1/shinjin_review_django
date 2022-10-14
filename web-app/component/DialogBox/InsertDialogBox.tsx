@@ -42,12 +42,14 @@ export default function InsertDialogBox({editor, getState, setState, title, mess
                 editor.chain().focus().setUrl({src: tweetID, align: "center"}).run();
                 break;
             case "youtube":
-                editor.commands.setYoutubeVideo({
+                editor.chain().focus().setYoutubeVideo({
                     src: tweetID
-                })
+                }).run()
                 break;
             default:
         }
+        editor.commands.createParagraphNear()
+
     }
 
     return (

@@ -11,7 +11,6 @@ export default function Tiptap() {
     const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
 
 
-
     const editor = useEditor({
         extensions: Extensions,
         onUpdate: ({editor}) => {
@@ -135,11 +134,42 @@ export default function Tiptap() {
                         editor?.commands.setHorizontalRule()
                     }}>Add Ruller
                     </button>
-                    <button onClick={()=> {setYoutubeDialogBoxOpen(true)}}>
+                    <button onClick={() => {
+                        setYoutubeDialogBoxOpen(true)
+                    }}>
                         Youtube Video
                     </button>
-                    <button onClick={()=> {setTwitterDialogBoxOpen(true)}}>
+                    <button onClick={() => {
+                        setTwitterDialogBoxOpen(true)
+                    }}>
                         Add Tweet
+                    </button>
+
+                    <button onClick={() => {
+
+                        editor?.chain().focus().setImageViewerURLS(
+                            {
+                                src: [
+                                    {
+                                        url: "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                                        alt: "TEST 1"
+                                    },
+                                    {
+                                        url: "https://images.unsplash.com/photo-1665731372479-551841cac2c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                                        alt: "TEST 2"
+                                    },
+                                    {
+                                        url: "https://images.unsplash.com/photo-1661956600684-97d3a4320e45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                                        alt: "TEST 3"
+                                    },
+                                ]
+                            }
+                        ).run()
+
+                        editor?.commands.createParagraphNear()
+
+                    }}>
+                        Add Image Viewer
                     </button>
                 </div>
             </div>

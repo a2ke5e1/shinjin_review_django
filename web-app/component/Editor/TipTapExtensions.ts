@@ -14,6 +14,7 @@ import {CharacterCount} from "@tiptap/extension-character-count";
 import {Placeholder} from "@tiptap/extension-placeholder";
 import {Twitter} from "../../custom_tiptap_extensions/Twitter/twitter";
 import {Typography} from "@tiptap/extension-typography";
+import {ImageViewer} from "../../custom_tiptap_extensions/ImageViewer/ImageViewer";
 
 const CustomDocument = Document.extend({
     content: 'heading horizontalRule paragraph  block*',
@@ -63,7 +64,8 @@ export default [
             return 'Content?'
         },
     }),
-    Twitter
+    Twitter,
+    ImageViewer
 
 
 ]
