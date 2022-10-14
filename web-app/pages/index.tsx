@@ -1,7 +1,5 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Tiptap from "../component/Editor/Tiptap";
 
 const Home: NextPage = () => {
@@ -16,7 +14,7 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                <Tiptap />
+                <Tiptap/>
             </main>
 
 
