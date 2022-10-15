@@ -10,23 +10,30 @@ interface InsertDialogBoxProps {
     title: String
     message: String,
     label: String,
-    insertBlock: 'twitter' | 'youtube'
+    insertBlock: 'twitter' | 'youtube' | 'link'
 }
 
 
-export default function InsertDialogBox({editor, getState, setState, title, message, label, insertBlock}: InsertDialogBoxProps) {
+export default function InsertDialogBox({
+                                            editor,
+                                            getState,
+                                            setState,
+                                            title,
+                                            message,
+                                            label,
+                                            insertBlock
+                                        }: InsertDialogBoxProps) {
 
     const [tweetID, setTweetID] = useState<string>("");
+
 
     const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         setTweetID(e.target.value);
     }
-
     const handleClose = () => {
         setState(false);
     };
-
     const handleCancel = () => {
         setTweetID("");
         handleClose();
@@ -40,15 +47,25 @@ export default function InsertDialogBox({editor, getState, setState, title, mess
         switch (insertBlock) {
             case "twitter":
                 editor.chain().focus().setUrl({src: tweetID, align: "center"}).run();
+                editor.commands.createParagraphNear()
                 break;
             case "youtube":
                 editor.chain().focus().setYoutubeVideo({
                     src: tweetID
                 }).run()
+                editor.commands.createParagraphNear()
+                break;
+            case "link":
+                if (tweetID == '') {
+                    editor.chain().focus().extendMarkRange('link').unsetLink()
+                        .run()
+                    return
+                }
+                editor.chain().focus().extendMarkRange('link').setLink({href: tweetID})
+                    .run()
                 break;
             default:
         }
-        editor.commands.createParagraphNear()
 
     }
 

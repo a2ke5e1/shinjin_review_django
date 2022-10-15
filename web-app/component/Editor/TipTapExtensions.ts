@@ -26,7 +26,10 @@ export default [
     StarterKit.configure({
         document: false
     }),
-    Link,
+    Link.configure({
+        autolink: false,
+        openOnClick: false
+    }),
     Underline,
     Typography,
     TextStyle,

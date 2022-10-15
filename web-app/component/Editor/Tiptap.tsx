@@ -12,21 +12,16 @@ import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-
+import {
+    FormatAlignCenter,
+    FormatAlignJustify,
+    FormatAlignLeft,
+    FormatAlignRight,
+    InsertLink
+} from "@mui/icons-material";
 
 
 export default function Tiptap() {
-
-    const [twitterDialogBoxOpen, setTwitterDialogBoxOpen] = useState(false);
-    const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
-    const [textColor, setTextColor] = useState('#000000');
-
-    const handleChangeTextColor = (color: string) => {
-        editor?.chain().focus().setColor(color).run()
-        setTextColor(color)
-    }
-
-
     const editor = useEditor({
         extensions: Extensions,
         onUpdate: ({editor}) => {
@@ -56,8 +51,17 @@ export default function Tiptap() {
     })
 
 
+    const [twitterDialogBoxOpen, setTwitterDialogBoxOpen] = useState(false);
+    const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
+    const [linkDialogBoxOpen, setLinkDialogBoxOpen] = useState(false);
+    const [textColor, setTextColor] = useState('#000000');
+
+
     const handleInsertTwitterButton = () => {
         setTwitterDialogBoxOpen(true);
+    }
+    const handleInsertLinkButton = () => {
+        setLinkDialogBoxOpen(true);
     }
     const handleInsertYoutubeButton = () => {
         setYoutubeDialogBoxOpen(true)
@@ -86,17 +90,10 @@ export default function Tiptap() {
         editor?.commands.createParagraphNear()
 
     }
-
-
-    const addImage = useCallback(() => {
-        const url = window.prompt('URL')
-
-        if (url) {
-            editor?.chain().focus().setImage({src: url}).run()
-        }
-    }, [editor])
-
-
+    const handleChangeTextColor = (color: string) => {
+        editor?.chain().focus().setColor(color).run()
+        setTextColor(color)
+    }
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
 
         if (event.ctrlKey && event.shiftKey && event.key == "X") {
@@ -115,6 +112,14 @@ export default function Tiptap() {
         }
 
     }, [editor]);
+    const addImage = useCallback(() => {
+        const url = window.prompt('URL')
+
+        if (url) {
+            editor?.chain().focus().setImage({src: url}).run()
+        }
+    }, [editor])
+
     useEffect(() => {
         // attach the event listener
         document.addEventListener('keydown', handleKeyPress);
@@ -130,46 +135,36 @@ export default function Tiptap() {
         <div className={styles["main-container"]}>
             <div className={styles["tools-container"]}>
                 <div>
-                     <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
-                         color : editor?.isActive('bold') ? "black" : ""
-                     }}
-                        disabled={
-                            !editor?.can()
-                                .chain()
-                                .focus()
-                                .toggleBold()
-                                .run()
-                        } aria-label="Make Text Bold">
-                        <FormatBoldIcon />
+                    <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
+                        color: editor?.isActive('bold') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
+                        <FormatBoldIcon/>
                     </IconButton>
-
-                     <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
-                         color : editor?.isActive('italic') ? "black" : ""
-                     }}
-                        disabled={
-                            !editor?.can()
-                                .chain()
-                                .focus()
-                                .toggleItalic()
-                                .run()
-                        } aria-label="Make Text Italic">
-                        <FormatItalicIcon />
+                    <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
+                        color: editor?.isActive('italic') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
+                        <FormatItalicIcon/>
                     </IconButton>
-
-                     <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
-                         color : editor?.isActive('underline') ? "black" : ""
-                     }} disabled={
-                            !editor?.can()
-                                .chain()
-                                .focus()
-                                .toggleUnderline()
-                                .run()
-                        } aria-label="Make Text Underline">
-                        <FormatUnderlinedIcon />
+                    <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
+                        color: editor?.isActive('underline') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+                                aria-label="Make Text Underline">
+                        <FormatUnderlinedIcon/>
                     </IconButton>
-
-
-
+                </div>
+                <div>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('left')}>
+                        <FormatAlignLeft/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('center')}>
+                        <FormatAlignCenter/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('right')}>
+                        <FormatAlignRight/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('justify')}>
+                        <FormatAlignJustify/>
+                    </IconButton>
                 </div>
                 <div>
                     <button
@@ -213,22 +208,24 @@ export default function Tiptap() {
                     </button>
                 </div>
                 <div>
-
-                    <IconButton  color="inherit" onClick={() => {
-                        editor?.commands.setHorizontalRule()
-                    }} aria-label="Add Horizontal Rule">
+                    <IconButton onClick={handleInsertLinkButton} sx={{
+                        color: editor?.isActive('link') ? "black" : ""
+                    }}>
+                        <InsertLink/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setHorizontalRule()} aria-label="Add Horizontal Rule">
                         <HorizontalRuleIcon/>
                     </IconButton>
-                    <IconButton color="inherit" onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
+                    <IconButton onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
                         <YouTubeIcon/>
                     </IconButton>
-                    <IconButton color="inherit" onClick={handleInsertTwitterButton} aria-label="Add Tweets">
+                    <IconButton onClick={handleInsertTwitterButton} aria-label="Add Tweets">
                         <TwitterIcon/>
                     </IconButton>
-                    <IconButton color="inherit" onClick={addImage} aria-label="Add Image">
+                    <IconButton onClick={addImage} aria-label="Add Image">
                         <ImageIcon/>
                     </IconButton>
-                    <IconButton color="inherit" onClick={handleInsertImageViewerButton} aria-label="Add Images">
+                    <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
                         <CollectionsIcon/>
                     </IconButton>
 
@@ -263,6 +260,15 @@ export default function Tiptap() {
                 message={"Enter the youtube URL of the youtube video that you want to embed."}
                 label={"URL"}
                 insertBlock="youtube"
+            />
+            <InsertDialogBox
+                editor={editor}
+                getState={linkDialogBoxOpen}
+                setState={setLinkDialogBoxOpen}
+                title={"Insert Link"}
+                message={""}
+                label={"URL"}
+                insertBlock="link"
             />
 
 

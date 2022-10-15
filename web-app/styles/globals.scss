@@ -49,7 +49,7 @@ body {
     pointer-events: none;
   }
 
-  p.is-empty:nth-child(3)::before {
+  p.is-empty:nth-child(2)::before {
     color: #adb5bd;
     content: attr(data-placeholder);
     float: left;
