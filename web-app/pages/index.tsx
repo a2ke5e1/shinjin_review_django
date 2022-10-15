@@ -1,6 +1,6 @@
 import type {NextPage} from 'next'
 import Head from 'next/head'
-import Tiptap from "../component/Editor/Tiptap";
+import TipTap from "../component/Editor/TipTap";
 
 const Home: NextPage = () => {
 
@@ -14,7 +14,7 @@ const Home: NextPage = () => {
             </Head>
 
             <main>
-                <Tiptap/>
+                <TipTap/>
             </main>
 
 
