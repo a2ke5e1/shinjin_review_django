@@ -1,4 +1,4 @@
-import styles from "../../../styles/Editor.module.css";
+import styles from "./EditorToolbar.module.scss";
 import {FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
@@ -33,7 +33,12 @@ interface EditorToolbarProps {
 }
 
 
-const EditorToolbar = ({editor, setTwitterDialogBoxOpen, setYoutubeDialogBoxOpen , setLinkDialogBoxOpen }: EditorToolbarProps) => {
+const EditorToolbar = ({
+                           editor,
+                           setTwitterDialogBoxOpen,
+                           setYoutubeDialogBoxOpen,
+                           setLinkDialogBoxOpen
+                       }: EditorToolbarProps) => {
 
 
     const handleInsertTwitterButton = () => {
@@ -144,136 +149,144 @@ const EditorToolbar = ({editor, setTwitterDialogBoxOpen, setYoutubeDialogBoxOpen
         }
     })
 
-    useEffect(()=> {
-       if (editor == null || editor?.commands == null) {
-           return;
-       }
+    useEffect(() => {
+        if (editor == null || editor?.commands == null) {
+            return;
+        }
         editor.commands.setFontFamily('sans-serif');
     }, [editor])
-
 
 
     return (
         <div className={styles["tools-container"]}>
 
-            <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={selectedFont}
-                    label="Font Family"
-                    onChange={handleChange}
-                >
-                    {fontList.map((value) => {
-                        return <MenuItem key={value.label} value={value.value} sx={{
-                            fontFamily: value.value
-                        }}>{value.label}</MenuItem>;
-                    })}
-                </Select>
-            </FormControl>
-
-
             <div>
-                <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
-                    color: editor?.isActive('bold') ? "black" : ""
-                }} disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
-                    <FormatBoldIcon/>
-                </IconButton>
-                <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
-                    color: editor?.isActive('italic') ? "black" : ""
-                }} disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
-                    <FormatItalicIcon/>
-                </IconButton>
-                <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
-                    color: editor?.isActive('underline') ? "black" : ""
-                }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
-                            aria-label="Make Text Underline">
-                    <FormatUnderlinedIcon/>
-                </IconButton>
+                <FormControl sx={{ mt: 2, width: "80px" }}  >
+                    <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={selectedFont}
+                        label="Font Family"
+                        onChange={handleChange}
+                    >
+                        {fontList.map((value) => {
+                            return <MenuItem key={value.label} value={value.value} sx={{
+                                fontFamily: value.value
+                            }}>{value.label}</MenuItem>;
+                        })}
+                    </Select>
+                </FormControl>
             </div>
             <div>
-                <IconButton onClick={() => editor?.commands.setTextAlign('left')}>
-                    <FormatAlignLeft/>
-                </IconButton>
-                <IconButton onClick={() => editor?.commands.setTextAlign('center')}>
-                    <FormatAlignCenter/>
-                </IconButton>
-                <IconButton onClick={() => editor?.commands.setTextAlign('right')}>
-                    <FormatAlignRight/>
-                </IconButton>
-                <IconButton onClick={() => editor?.commands.setTextAlign('justify')}>
-                    <FormatAlignJustify/>
-                </IconButton>
-            </div>
-            <div>
-                {
-                    Headings.map((value, index) => {
-                        const hLevel = (index + 1) as Level
-                        return (
-                            <Fragment key={index}>
-                                <IconButton
+                <div>
+                    <input
+                        type="color"
+                        onInput={(event) => {
+                            handleChangeTextColor((event.target as HTMLInputElement).value)
+                        }}
+                        value={editor?.getAttributes('textStyle').color == null ? "#000000" : editor?.getAttributes('textStyle').color}
+                    />
 
-                                    onClick={
-                                        () => editor?.chain().focus().toggleHeading({level: hLevel}).run()
-                                    }
-                                    disabled={
-                                        !editor?.can()
-                                            .chain()
-                                            .focus()
-                                            .toggleHeading({level: hLevel})
-                                            .run()
-                                    }
-                                    sx={{
-                                        color: editor?.isActive('heading', {level: hLevel}) ? "black" : ""
-                                    }}
-                                >
-                                    {value}
-                                </IconButton>
-                            </Fragment>
-                        )
-                    })
-                }
-            </div>
-            <div>
-                { /* TODO : Fix Editor get Color attributes nullability */}
-                <input
-                    type="color"
-                    onInput={(event) => {
-                        handleChangeTextColor((event.target as HTMLInputElement).value)
-                    }}
-                    value={editor?.getAttributes('textStyle').color == null ? "#000000" : editor?.getAttributes('textStyle').color}
-                />
-                <button
-                    onClick={() => editor?.chain().focus().toggleHighlight().run()}
-                    className={editor?.isActive('highlight') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                >
-                    <mark>A</mark>
-                </button>
-            </div>
-            <div>
-                <IconButton onClick={handleInsertLinkButton} sx={{
-                    color: editor?.isActive('link') ? "black" : ""
-                }}>
-                    <InsertLink/>
-                </IconButton>
-                <IconButton onClick={() => editor?.commands.setHorizontalRule()} aria-label="Add Horizontal Rule">
-                    <HorizontalRuleIcon/>
-                </IconButton>
-                <IconButton onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
-                    <YouTubeIcon/>
-                </IconButton>
-                <IconButton onClick={handleInsertTwitterButton} aria-label="Add Tweets">
-                    <TwitterIcon/>
-                </IconButton>
-                <IconButton onClick={addImage} aria-label="Add Image">
-                    <ImageIcon/>
-                </IconButton>
-                <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
-                    <CollectionsIcon/>
-                </IconButton>
+                    <input
+                        type="color"
+                        onInput={(event) => {
+                            editor.chain().focus().toggleHighlight({color: (event.target as HTMLInputElement).value}).run()
+                        }}
+                        value={editor?.getAttributes('highlight').color == null ? "#00000000" : editor?.getAttributes('highlight').color}
+                    />
+                </div>
+                <div>
+                    <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
+                        color: editor?.isActive('bold') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
+                        <FormatBoldIcon/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
+                        color: editor?.isActive('italic') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
+                        <FormatItalicIcon/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
+                        color: editor?.isActive('underline') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+                                aria-label="Make Text Underline">
+                        <FormatUnderlinedIcon/>
+                    </IconButton>
+                    <button
+                        onClick={() => editor?.chain().focus().toggleHighlight().run()}
+                        className={editor?.isActive('highlight') ? styles["is-active"] : '' + " " + styles["btn-style"]}
+                    >
+                        <mark>A</mark>
+                    </button>
+                </div>
+                <div>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('left')}>
+                        <FormatAlignLeft/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('center')}>
+                        <FormatAlignCenter/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('right')}>
+                        <FormatAlignRight/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setTextAlign('justify')}>
+                        <FormatAlignJustify/>
+                    </IconButton>
+                </div>
+                <div>
+                    {
+                        Headings.map((value, index) => {
+                            const hLevel = (index + 1) as Level
+                            return (
+                                <Fragment key={index}>
+                                    <IconButton
+
+                                        onClick={
+                                            () => editor?.chain().focus().toggleHeading({level: hLevel}).run()
+                                        }
+                                        disabled={
+                                            !editor?.can()
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({level: hLevel})
+                                                .run()
+                                        }
+                                        sx={{
+                                            color: editor?.isActive('heading', {level: hLevel}) ? "black" : ""
+                                        }}
+                                    >
+                                        {value}
+                                    </IconButton>
+                                </Fragment>
+                            )
+                        })
+                    }
+                </div>
+                <div>
+                    <IconButton onClick={handleInsertLinkButton} sx={{
+                        color: editor?.isActive('link') ? "black" : ""
+                    }}>
+                        <InsertLink/>
+                    </IconButton>
+                    <IconButton onClick={() => editor?.commands.setHorizontalRule()} aria-label="Add Horizontal Rule">
+                        <HorizontalRuleIcon/>
+                    </IconButton>
+                    <IconButton onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
+                        <YouTubeIcon/>
+                    </IconButton>
+                    <IconButton onClick={handleInsertTwitterButton} aria-label="Add Tweets">
+                        <TwitterIcon/>
+                    </IconButton>
+                    <IconButton onClick={addImage} aria-label="Add Image">
+                        <ImageIcon/>
+                    </IconButton>
+                    <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
+                        <CollectionsIcon/>
+                    </IconButton>
 
 
+                </div>
             </div>
         </div>
     )
