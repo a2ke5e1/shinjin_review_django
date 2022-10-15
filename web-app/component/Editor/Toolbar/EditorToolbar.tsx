@@ -7,11 +7,11 @@ import {
     FormatAlignCenter,
     FormatAlignJustify,
     FormatAlignLeft,
-    FormatAlignRight,
+    FormatAlignRight, FormatColorReset, FormatColorText, FormatStrikethrough,
     InsertLink
 } from "@mui/icons-material";
 import {Level} from "@tiptap/extension-heading";
-import {Fragment, useCallback, useEffect, useState} from "react";
+import {Fragment, useCallback, useEffect, useRef, useState} from "react";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -24,6 +24,7 @@ import FormatH3Icon from "../../CustomIcons/FormatH3Icon";
 import FormatH4Icon from "../../CustomIcons/FormatH4Icon";
 import FormatH5Icon from "../../CustomIcons/FormatH5Icon";
 import FormatH6Icon from "../../CustomIcons/FormatH6Icon";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 interface EditorToolbarProps {
     editor: Editor
@@ -156,12 +157,11 @@ const EditorToolbar = ({
         editor.commands.setFontFamily('sans-serif');
     }, [editor])
 
-
     return (
         <div className={styles["tools-container"]}>
 
             <div>
-                <FormControl sx={{ mt: 2, width: "80px" }}  >
+                <FormControl sx={{mt: 2 }}>
                     <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -187,14 +187,27 @@ const EditorToolbar = ({
                         }}
                         value={editor?.getAttributes('textStyle').color == null ? "#000000" : editor?.getAttributes('textStyle').color}
                     />
-
                     <input
                         type="color"
                         onInput={(event) => {
                             editor.chain().focus().toggleHighlight({color: (event.target as HTMLInputElement).value}).run()
+
                         }}
-                        value={editor?.getAttributes('highlight').color == null ? "#00000000" : editor?.getAttributes('highlight').color}
+                        value={editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color}
                     />
+                    <IconButton onClick={() => {
+                        editor?.commands.unsetColor()
+                    }}>
+                        <FormatColorReset />
+                    </IconButton>
+                     <IconButton
+                        onClick={() => editor?.chain().focus().toggleHighlight().run()}
+                        sx={{
+                            color: editor?.isActive('highlight') ? editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color : ""
+                        }}
+                    >
+                       <BorderColorIcon />
+                    </IconButton>
                 </div>
                 <div>
                     <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
@@ -213,12 +226,13 @@ const EditorToolbar = ({
                                 aria-label="Make Text Underline">
                         <FormatUnderlinedIcon/>
                     </IconButton>
-                    <button
-                        onClick={() => editor?.chain().focus().toggleHighlight().run()}
-                        className={editor?.isActive('highlight') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                    >
-                        <mark>A</mark>
-                    </button>
+                    <IconButton onClick={() => editor?.chain().focus().toggleStrike().run()} sx={{
+                        color: editor?.isActive('strike') ? "black" : ""
+                    }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+                                aria-label="Strike Text">
+                        <FormatStrikethrough/>
+                    </IconButton>
+
                 </div>
                 <div>
                     <IconButton onClick={() => editor?.commands.setTextAlign('left')}>
