@@ -1,6 +1,6 @@
 import {EditorContent, useEditor} from '@tiptap/react';
 import styles from "../../styles/Editor.module.css";
-import {useCallback, useEffect, useState, Fragment} from "react";
+import {useCallback, useEffect, useState, Fragment, useMemo} from "react";
 import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
 import {FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
@@ -61,7 +61,6 @@ export default function Tiptap() {
     const [twitterDialogBoxOpen, setTwitterDialogBoxOpen] = useState(false);
     const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
     const [linkDialogBoxOpen, setLinkDialogBoxOpen] = useState(false);
-    const [textColor, setTextColor] = useState('#000000');
 
 
     const handleInsertTwitterButton = () => {
@@ -99,7 +98,6 @@ export default function Tiptap() {
     }
     const handleChangeTextColor = (color: string) => {
         editor?.chain().focus().setColor(color).run()
-        setTextColor(color)
     }
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
 
@@ -149,19 +147,36 @@ export default function Tiptap() {
 
     const fontList = [
         {label: "Sans-serif", value: "sans-serif"},
+        {label: "Inter", value: "Inter"},
+        {label: "Oswald", value: "Oswald"},
+        {label: "Quicksand", value: "Quicksand"},
         {label: "Roboto", value: "Roboto"},
         {label: "Roboto Condensed", value: "Roboto Condensed"},
-        {label: "Quicksand", value: "Quicksand"},
+        {label: "Roboto Slab", value: "Roboto Slab"},
         {label: "Ubuntu", value: "Ubuntu"}
     ];
 
     const [selectedFont, setSelectedFont] = useState(fontList[0].value);
+
 
     const handleChange = (event: SelectChangeEvent) => {
         event.preventDefault()
         setSelectedFont(event.target.value as string);
         editor?.commands.setFontFamily(event.target.value as string);
     };
+
+    fontList.map((value) => {
+        if (editor?.isActive('textStyle', {fontFamily: value.value}) && value.value != selectedFont) {
+            setSelectedFont(value.value)
+        } 
+    })
+
+    useEffect(()=> {
+       if (editor == null || editor?.commands == null) {
+           return;
+       }
+        editor.commands.setFontFamily('sans-serif');
+    }, [editor])
 
     return (
         <div className={styles["main-container"]}>
@@ -178,8 +193,8 @@ export default function Tiptap() {
                     >
                         {fontList.map((value) => {
                             return <MenuItem key={value.label} value={value.value} sx={{
-                                fontFamily : value.value
-                            }} >{value.label}</MenuItem>;
+                                fontFamily: value.value
+                            }}>{value.label}</MenuItem>;
                         })}
                     </Select>
                 </FormControl>
@@ -247,16 +262,13 @@ export default function Tiptap() {
                     }
                 </div>
                 <div>
+                    { /* TODO : Fix Editor get Color attributes nullability */}
                     <input
                         type="color"
-                        id={"co"}
                         onInput={(event) => {
                             handleChangeTextColor((event.target as HTMLInputElement).value)
                         }}
-                        onClick={(event) => {
-                            handleChangeTextColor(textColor)
-                        }}
-                        value={editor?.getAttributes('textStyle').color}
+                        value={editor?.getAttributes('textStyle').color == null ? "#000000" : editor?.getAttributes('textStyle').color}
                     />
                     <button
                         onClick={() => editor?.chain().focus().toggleHighlight().run()}
