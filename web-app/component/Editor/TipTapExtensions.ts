@@ -15,6 +15,7 @@ import {Placeholder} from "@tiptap/extension-placeholder";
 import {Twitter} from "../../custom_tiptap_extensions/Twitter/twitter";
 import {Typography} from "@tiptap/extension-typography";
 import {ImageViewer} from "../../custom_tiptap_extensions/ImageViewer/ImageViewer";
+import {FontSize} from "@tobiasafischer/tiptap-extension-font-size";
 
 const CustomDocument = Document.extend({
     content: 'heading block*',

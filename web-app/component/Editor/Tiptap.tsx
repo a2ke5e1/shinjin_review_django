@@ -3,7 +3,7 @@ import styles from "../../styles/Editor.module.css";
 import {useCallback, useEffect, useState, Fragment} from "react";
 import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
-import {IconButton} from "@mui/material";
+import {FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CollectionsIcon from '@mui/icons-material/Collections';
@@ -147,9 +147,41 @@ export default function Tiptap() {
     ]
 
 
+    const fontList = [
+        {label: "Roboto", value: "Roboto"},
+        {label: "Sans-serif", value: "sans-serif"},
+        {label: "Ubuntu", value: "Ubuntu"}
+    ];
+
+    const [selectedFont, setSelectedFont] = useState(fontList[0].value);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        event.preventDefault()
+        setSelectedFont(event.target.value as string);
+        console.log(event.target.value as string);
+        editor?.commands.setFontFamily(event.target.value as string);
+    };
+
     return (
         <div className={styles["main-container"]}>
             <div className={styles["tools-container"]}>
+
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={selectedFont}
+                        label="Font Family"
+                        onChange={handleChange}
+                    >
+                        {fontList.map((value) => {
+                            return <MenuItem key={value.label} value={value.value}>{value.label}</MenuItem>;
+                        })}
+                    </Select>
+                </FormControl>
+
+
                 <div>
                     <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
                         color: editor?.isActive('bold') ? "black" : ""
@@ -191,7 +223,7 @@ export default function Tiptap() {
                                     <IconButton
 
                                         onClick={
-                                            () => editor?.chain().focus().toggleHeading({level: hLevel} ).run()
+                                            () => editor?.chain().focus().toggleHeading({level: hLevel}).run()
                                         }
                                         disabled={
                                             !editor?.can()
@@ -228,13 +260,6 @@ export default function Tiptap() {
                         className={editor?.isActive('highlight') ? styles["is-active"] : '' + " " + styles["btn-style"]}
                     >
                         <mark>A</mark>
-                    </button>
-                    <button onClick={
-                        () => {
-                            editor?.commands.setFontFamily('Inter')
-                        }
-                    }>
-                        Font Test
                     </button>
                 </div>
                 <div>
