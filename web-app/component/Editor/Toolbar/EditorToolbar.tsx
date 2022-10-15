@@ -161,7 +161,7 @@ const EditorToolbar = ({
         <div className={styles["tools-container"]}>
 
             <div>
-                <FormControl sx={{mt: 2 }}>
+                <FormControl sx={{mt: 2}}>
                     <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -185,28 +185,27 @@ const EditorToolbar = ({
                         onInput={(event) => {
                             handleChangeTextColor((event.target as HTMLInputElement).value)
                         }}
-                        value={editor?.getAttributes('textStyle').color == null ? "#000000" : editor?.getAttributes('textStyle').color}
+                        value={editor?.getAttributes('textStyle').color == null ? "l000" : editor?.getAttributes('textStyle').color}
                     />
                     <input
                         type="color"
                         onInput={(event) => {
                             editor.chain().focus().toggleHighlight({color: (event.target as HTMLInputElement).value}).run()
-
                         }}
                         value={editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color}
                     />
                     <IconButton onClick={() => {
                         editor?.commands.unsetColor()
                     }}>
-                        <FormatColorReset />
+                        <FormatColorReset/>
                     </IconButton>
-                     <IconButton
+                    <IconButton
                         onClick={() => editor?.chain().focus().toggleHighlight().run()}
                         sx={{
                             color: editor?.isActive('highlight') ? editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color : ""
                         }}
                     >
-                       <BorderColorIcon />
+                        <BorderColorIcon/>
                     </IconButton>
                 </div>
                 <div>
