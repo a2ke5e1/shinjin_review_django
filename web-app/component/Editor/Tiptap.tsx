@@ -148,8 +148,10 @@ export default function Tiptap() {
 
 
     const fontList = [
-        {label: "Roboto", value: "Roboto"},
         {label: "Sans-serif", value: "sans-serif"},
+        {label: "Roboto", value: "Roboto"},
+        {label: "Roboto Condensed", value: "Roboto Condensed"},
+        {label: "Quicksand", value: "Quicksand"},
         {label: "Ubuntu", value: "Ubuntu"}
     ];
 
@@ -158,7 +160,6 @@ export default function Tiptap() {
     const handleChange = (event: SelectChangeEvent) => {
         event.preventDefault()
         setSelectedFont(event.target.value as string);
-        console.log(event.target.value as string);
         editor?.commands.setFontFamily(event.target.value as string);
     };
 
@@ -176,7 +177,9 @@ export default function Tiptap() {
                         onChange={handleChange}
                     >
                         {fontList.map((value) => {
-                            return <MenuItem key={value.label} value={value.value}>{value.label}</MenuItem>;
+                            return <MenuItem key={value.label} value={value.value} sx={{
+                                fontFamily : value.value
+                            }} >{value.label}</MenuItem>;
                         })}
                     </Select>
                 </FormControl>
