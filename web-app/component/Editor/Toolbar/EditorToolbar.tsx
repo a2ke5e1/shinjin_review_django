@@ -254,14 +254,16 @@ const EditorToolbar = ({
                             <YouTubeIcon/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title={"Insert Image"}>
+                    <Tooltip title={"Insert Tweets"}>
                         <IconButton onClick={handleInsertTwitterButton} aria-label="Add Tweets">
                             <TwitterIcon/>
                         </IconButton>
                     </Tooltip>
-                    <IconButton onClick={addImage} aria-label="Add Image">
+                    <Tooltip title={"Insert Image"}>
+                          <IconButton onClick={addImage} aria-label="Add Image">
                         <ImageIcon/>
                     </IconButton>
+                    </Tooltip>
                     <Tooltip title={"Insert Images"}>
                         <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
                             <CollectionsIcon/>
