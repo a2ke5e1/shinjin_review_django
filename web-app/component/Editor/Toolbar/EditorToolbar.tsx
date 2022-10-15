@@ -1,30 +1,19 @@
 import styles from "./EditorToolbar.module.scss";
-import {FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip} from "@mui/material";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
-import {
-    FormatAlignCenter,
-    FormatAlignJustify,
-    FormatAlignLeft,
-    FormatAlignRight, FormatColorReset, FormatColorText, FormatStrikethrough,
-    InsertLink
-} from "@mui/icons-material";
-import {Level} from "@tiptap/extension-heading";
-import {Fragment, useCallback, useEffect, useRef, useState} from "react";
+import {FormatColorReset, FormatStrikethrough, InsertLink} from "@mui/icons-material";
+import {useCallback, useEffect, useState} from "react";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import ImageIcon from "@mui/icons-material/Image";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import {Editor} from "@tiptap/react";
-import FormatH1Icon from "../../CustomIcons/FormatH1Icon";
-import FormatH2Icon from "../../CustomIcons/FormatH2Icon";
-import FormatH3Icon from "../../CustomIcons/FormatH3Icon";
-import FormatH4Icon from "../../CustomIcons/FormatH4Icon";
-import FormatH5Icon from "../../CustomIcons/FormatH5Icon";
-import FormatH6Icon from "../../CustomIcons/FormatH6Icon";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import TextAlignmentContainer from "./TextAlignmentContainer";
+import HeadingLevelContainer from "./HeadingLevelContainer";
 
 interface EditorToolbarProps {
     editor: Editor
@@ -114,15 +103,6 @@ const EditorToolbar = ({
         };
     }, [handleKeyPress]);
 
-    const Headings = [
-        <FormatH1Icon key={1}/>,
-        <FormatH2Icon key={2}/>,
-        <FormatH3Icon key={3}/>,
-        <FormatH4Icon key={4}/>,
-        <FormatH5Icon key={5}/>,
-        <FormatH6Icon key={6}/>
-    ]
-
 
     const fontList = [
         {label: "Sans-serif", value: "sans-serif"},
@@ -180,101 +160,80 @@ const EditorToolbar = ({
             </div>
             <div>
                 <div>
-                    <input
-                        type="color"
-                        onInput={(event) => {
-                            handleChangeTextColor((event.target as HTMLInputElement).value)
-                        }}
-                        value={editor?.getAttributes('textStyle').color == null ? "l000" : editor?.getAttributes('textStyle').color}
-                    />
-                    <input
-                        type="color"
-                        onInput={(event) => {
-                            editor.chain().focus().toggleHighlight({color: (event.target as HTMLInputElement).value}).run()
-                        }}
-                        value={editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color}
-                    />
-                    <IconButton onClick={() => {
-                        editor?.commands.unsetColor()
-                    }}>
-                        <FormatColorReset/>
-                    </IconButton>
-                    <IconButton
-                        onClick={() => editor?.chain().focus().toggleHighlight().run()}
-                        sx={{
-                            color: editor?.isActive('highlight') ? editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color : ""
-                        }}
-                    >
-                        <BorderColorIcon/>
-                    </IconButton>
+                    <Tooltip title={"Font Color"}>
+                        <input
+                            type="color"
+                            onInput={(event) => {
+                                handleChangeTextColor((event.target as HTMLInputElement).value)
+                            }}
+                            value={editor?.getAttributes('textStyle').color == null ? "l000" : editor?.getAttributes('textStyle').color}
+                        />
+                    </Tooltip>
+                    <Tooltip title={"Highlight Color"}>
+                        <input
+                            type="color"
+                            onInput={(event) => {
+                                editor.chain().focus().toggleHighlight({color: (event.target as HTMLInputElement).value}).run()
+                            }}
+                            value={editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color}
+                        />
+                    </Tooltip>
+                    <Tooltip title={"Remove Font Color"}>
+                        <IconButton onClick={() => {
+                            editor?.commands.unsetColor()
+                        }}>
+                            <FormatColorReset/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Toogle Text Highligh"}>
+                        <IconButton
+                            onClick={() => editor?.chain().focus().toggleHighlight().run()}
+                            sx={{
+                                color: editor?.isActive('highlight') ? editor?.getAttributes('highlight').color == null ? "#ffff00" : editor?.getAttributes('highlight').color : ""
+                            }}
+                        >
+                            <BorderColorIcon/>
+                        </IconButton>
+                    </Tooltip>
                 </div>
                 <div>
-                    <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
-                        color: editor?.isActive('bold') ? "black" : ""
-                    }} disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
-                        <FormatBoldIcon/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
-                        color: editor?.isActive('italic') ? "black" : ""
-                    }} disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
-                        <FormatItalicIcon/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
-                        color: editor?.isActive('underline') ? "black" : ""
-                    }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
-                                aria-label="Make Text Underline">
-                        <FormatUnderlinedIcon/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.chain().focus().toggleStrike().run()} sx={{
-                        color: editor?.isActive('strike') ? "black" : ""
-                    }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
-                                aria-label="Strike Text">
-                        <FormatStrikethrough/>
-                    </IconButton>
+                    <Tooltip title={"Bold"}>
+                        <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
+                            color: editor?.isActive('bold') ? "black" : ""
+                        }} disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
+                            <FormatBoldIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Italic"}>
+                        <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
+                            color: editor?.isActive('italic') ? "black" : ""
+                        }} disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
+                            <FormatItalicIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Underline"}>
+                        <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
+                            color: editor?.isActive('underline') ? "black" : ""
+                        }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+                                    aria-label="Make Text Underline">
+                            <FormatUnderlinedIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Strike Through"}>
+                        <IconButton onClick={() => editor?.chain().focus().toggleStrike().run()} sx={{
+                            color: editor?.isActive('strike') ? "black" : ""
+                        }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+                                    aria-label="Strike Text">
+                            <FormatStrikethrough/>
+                        </IconButton>
+                    </Tooltip>
 
                 </div>
                 <div>
-                    <IconButton onClick={() => editor?.commands.setTextAlign('left')}>
-                        <FormatAlignLeft/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.commands.setTextAlign('center')}>
-                        <FormatAlignCenter/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.commands.setTextAlign('right')}>
-                        <FormatAlignRight/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.commands.setTextAlign('justify')}>
-                        <FormatAlignJustify/>
-                    </IconButton>
+                    <TextAlignmentContainer editor={editor}/>
                 </div>
                 <div>
-                    {
-                        Headings.map((value, index) => {
-                            const hLevel = (index + 1) as Level
-                            return (
-                                <Fragment key={index}>
-                                    <IconButton
-
-                                        onClick={
-                                            () => editor?.chain().focus().toggleHeading({level: hLevel}).run()
-                                        }
-                                        disabled={
-                                            !editor?.can()
-                                                .chain()
-                                                .focus()
-                                                .toggleHeading({level: hLevel})
-                                                .run()
-                                        }
-                                        sx={{
-                                            color: editor?.isActive('heading', {level: hLevel}) ? "black" : ""
-                                        }}
-                                    >
-                                        {value}
-                                    </IconButton>
-                                </Fragment>
-                            )
-                        })
-                    }
+                    <HeadingLevelContainer editor={editor}/>
                 </div>
                 <div>
                     <IconButton onClick={handleInsertLinkButton} sx={{
