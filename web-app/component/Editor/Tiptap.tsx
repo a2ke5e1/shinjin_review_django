@@ -1,6 +1,6 @@
 import {EditorContent, useEditor} from '@tiptap/react';
 import styles from "../../styles/Editor.module.css";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState, Fragment} from "react";
 import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
 import {IconButton} from "@mui/material";
@@ -19,6 +19,13 @@ import {
     FormatAlignRight,
     InsertLink
 } from "@mui/icons-material";
+import FormatH1Icon from "../CustomIcons/FormatH1Icon";
+import FormatH2Icon from "../CustomIcons/FormatH2Icon";
+import FormatH3Icon from "../CustomIcons/FormatH3Icon";
+import FormatH4Icon from "../CustomIcons/FormatH4Icon";
+import FormatH5Icon from "../CustomIcons/FormatH5Icon";
+import FormatH6Icon from "../CustomIcons/FormatH6Icon";
+import {Level} from "@tiptap/extension-heading";
 
 
 export default function Tiptap() {
@@ -130,6 +137,15 @@ export default function Tiptap() {
         };
     }, [handleKeyPress]);
 
+    const Headings = [
+        <FormatH1Icon key={1}/>,
+        <FormatH2Icon key={2}/>,
+        <FormatH3Icon key={3}/>,
+        <FormatH4Icon key={4}/>,
+        <FormatH5Icon key={5}/>,
+        <FormatH6Icon key={6}/>
+    ]
+
 
     return (
         <div className={styles["main-container"]}>
@@ -167,19 +183,33 @@ export default function Tiptap() {
                     </IconButton>
                 </div>
                 <div>
-                    <button
-                        onClick={() => editor?.chain().focus().toggleHeading({level: 1}).run()}
-                        disabled={
-                            !editor?.can()
-                                .chain()
-                                .focus()
-                                .toggleHeading({level: 1})
-                                .run()
-                        }
-                        className={editor?.isActive('heading', {level: 1}) ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                    >
-                        H1
-                    </button>
+                    {
+                        Headings.map((value, index) => {
+                            const hLevel = (index + 1) as Level
+                            return (
+                                <Fragment key={index}>
+                                    <IconButton
+
+                                        onClick={
+                                            () => editor?.chain().focus().toggleHeading({level: hLevel} ).run()
+                                        }
+                                        disabled={
+                                            !editor?.can()
+                                                .chain()
+                                                .focus()
+                                                .toggleHeading({level: hLevel})
+                                                .run()
+                                        }
+                                        sx={{
+                                            color: editor?.isActive('heading', {level: hLevel}) ? "black" : ""
+                                        }}
+                                    >
+                                        {value}
+                                    </IconButton>
+                                </Fragment>
+                            )
+                        })
+                    }
                 </div>
                 <div>
                     <input
@@ -241,7 +271,6 @@ export default function Tiptap() {
                 {editor?.storage.characterCount.words()} Words
             </div>
 
-
             <InsertDialogBox
                 editor={editor}
                 getState={twitterDialogBoxOpen}
@@ -251,7 +280,6 @@ export default function Tiptap() {
                 label={"Tweet ID"}
                 insertBlock="twitter"
             />
-
             <InsertDialogBox
                 editor={editor}
                 getState={youtubeDialogBoxOpen}
@@ -270,8 +298,6 @@ export default function Tiptap() {
                 label={"URL"}
                 insertBlock="link"
             />
-
-
         </div>
     )
 }
