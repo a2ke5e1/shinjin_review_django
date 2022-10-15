@@ -236,28 +236,37 @@ const EditorToolbar = ({
                     <HeadingLevelContainer editor={editor}/>
                 </div>
                 <div>
-                    <IconButton onClick={handleInsertLinkButton} sx={{
-                        color: editor?.isActive('link') ? "black" : ""
-                    }}>
-                        <InsertLink/>
-                    </IconButton>
-                    <IconButton onClick={() => editor?.commands.setHorizontalRule()} aria-label="Add Horizontal Rule">
-                        <HorizontalRuleIcon/>
-                    </IconButton>
-                    <IconButton onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
-                        <YouTubeIcon/>
-                    </IconButton>
-                    <IconButton onClick={handleInsertTwitterButton} aria-label="Add Tweets">
-                        <TwitterIcon/>
-                    </IconButton>
+                    <Tooltip title={"Link"}>
+                        <IconButton onClick={handleInsertLinkButton} sx={{
+                            color: editor?.isActive('link') ? "black" : ""
+                        }}>
+                            <InsertLink/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Horizontal Rule"}>
+                        <IconButton onClick={() => editor?.commands.setHorizontalRule()}
+                                    aria-label="Add Horizontal Rule">
+                            <HorizontalRuleIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Add Youtube Video"}>
+                        <IconButton onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
+                            <YouTubeIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Insert Image"}>
+                        <IconButton onClick={handleInsertTwitterButton} aria-label="Add Tweets">
+                            <TwitterIcon/>
+                        </IconButton>
+                    </Tooltip>
                     <IconButton onClick={addImage} aria-label="Add Image">
                         <ImageIcon/>
                     </IconButton>
-                    <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
-                        <CollectionsIcon/>
-                    </IconButton>
-
-
+                    <Tooltip title={"Insert Images"}>
+                        <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
+                            <CollectionsIcon/>
+                        </IconButton>
+                    </Tooltip>
                 </div>
             </div>
         </div>
