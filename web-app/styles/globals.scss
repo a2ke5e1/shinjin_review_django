@@ -15,7 +15,6 @@ body {
 .ProseMirror {
 
 
-
   li {
     margin: 0;
   }
@@ -31,6 +30,7 @@ body {
   h5,
   h6 {
     line-height: 1.1;
+    font-weight: 500;
   }
 
 
@@ -56,4 +56,20 @@ body {
     height: 0;
     pointer-events: none;
   }
+}
+
+
+
+input[type="color"] {
+  background: transparent;
+  height: 3rem;
+  width: 3rem;
+  border-color: transparent;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border-color: #606060;
+  border-width: 1px;
+  border-radius: 50%;
+
 }

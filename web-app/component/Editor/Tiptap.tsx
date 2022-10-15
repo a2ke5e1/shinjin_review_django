@@ -1,14 +1,31 @@
 import {EditorContent, useEditor} from '@tiptap/react';
 import styles from "../../styles/Editor.module.css";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
+import {IconButton} from "@mui/material";
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import CollectionsIcon from '@mui/icons-material/Collections';
+import ImageIcon from '@mui/icons-material/Image';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import FormatItalicIcon from '@mui/icons-material/FormatItalic';
+import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+
 
 
 export default function Tiptap() {
 
     const [twitterDialogBoxOpen, setTwitterDialogBoxOpen] = useState(false);
     const [youtubeDialogBoxOpen, setYoutubeDialogBoxOpen] = useState(false);
+    const [textColor, setTextColor] = useState('#000000');
+
+    const handleChangeTextColor = (color: string) => {
+        editor?.chain().focus().setColor(color).run()
+        setTextColor(color)
+    }
+
 
     const editor = useEditor({
         extensions: Extensions,
@@ -82,9 +99,7 @@ export default function Tiptap() {
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
 
-            console.log(event.key)
-
-         if (event.ctrlKey && event.shiftKey && event.key == "X") {
+        if (event.ctrlKey && event.shiftKey && event.key == "X") {
             event.preventDefault()
             handleInsertTwitterButton();
         }
@@ -100,7 +115,6 @@ export default function Tiptap() {
         }
 
     }, [editor]);
-
     useEffect(() => {
         // attach the event listener
         document.addEventListener('keydown', handleKeyPress);
@@ -116,45 +130,46 @@ export default function Tiptap() {
         <div className={styles["main-container"]}>
             <div className={styles["tools-container"]}>
                 <div>
-                    <button
-                        onClick={() => editor?.chain().focus().toggleBold().run()}
+                     <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
+                         color : editor?.isActive('bold') ? "black" : ""
+                     }}
                         disabled={
                             !editor?.can()
                                 .chain()
                                 .focus()
                                 .toggleBold()
                                 .run()
-                        }
-                        className={editor?.isActive('bold') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                    >
-                        B
-                    </button>
-                    <button
-                        onClick={() => editor?.chain().focus().toggleItalic().run()}
+                        } aria-label="Make Text Bold">
+                        <FormatBoldIcon />
+                    </IconButton>
+
+                     <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
+                         color : editor?.isActive('italic') ? "black" : ""
+                     }}
                         disabled={
                             !editor?.can()
                                 .chain()
                                 .focus()
                                 .toggleItalic()
                                 .run()
-                        }
-                        className={editor?.isActive('italic') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                    >
-                        I
-                    </button>
-                    <button
-                        onClick={() => editor?.chain().focus().toggleUnderline().run()}
-                        disabled={
+                        } aria-label="Make Text Italic">
+                        <FormatItalicIcon />
+                    </IconButton>
+
+                     <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
+                         color : editor?.isActive('underline') ? "black" : ""
+                     }} disabled={
                             !editor?.can()
                                 .chain()
                                 .focus()
                                 .toggleUnderline()
                                 .run()
-                        }
-                        className={editor?.isActive('underline') ? styles["is-active"] : '' + " " + styles["btn-style"]}
-                    >
-                        <u>U</u>
-                    </button>
+                        } aria-label="Make Text Underline">
+                        <FormatUnderlinedIcon />
+                    </IconButton>
+
+
+
                 </div>
                 <div>
                     <button
@@ -174,7 +189,13 @@ export default function Tiptap() {
                 <div>
                     <input
                         type="color"
-                        onInput={event => editor?.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
+                        id={"co"}
+                        onInput={(event) => {
+                            handleChangeTextColor((event.target as HTMLInputElement).value)
+                        }}
+                        onClick={(event) => {
+                            handleChangeTextColor(textColor)
+                        }}
                         value={editor?.getAttributes('textStyle').color}
                     />
                     <button
@@ -192,21 +213,26 @@ export default function Tiptap() {
                     </button>
                 </div>
                 <div>
-                    <button onClick={addImage}>Add Image</button>
-                    <button onClick={() => {
-                        editor?.commands.setHorizontalRule()
-                    }}>Add Ruller
-                    </button>
-                    <button onClick={handleInsertYoutubeButton}>
-                        Youtube Video
-                    </button>
-                    <button onClick={handleInsertTwitterButton}>
-                        Add Tweet
-                    </button>
 
-                    <button onClick={handleInsertImageViewerButton}>
-                        Add Image Viewer
-                    </button>
+                    <IconButton  color="inherit" onClick={() => {
+                        editor?.commands.setHorizontalRule()
+                    }} aria-label="Add Horizontal Rule">
+                        <HorizontalRuleIcon/>
+                    </IconButton>
+                    <IconButton color="inherit" onClick={handleInsertYoutubeButton} aria-label="Add Youtube Video">
+                        <YouTubeIcon/>
+                    </IconButton>
+                    <IconButton color="inherit" onClick={handleInsertTwitterButton} aria-label="Add Tweets">
+                        <TwitterIcon/>
+                    </IconButton>
+                    <IconButton color="inherit" onClick={addImage} aria-label="Add Image">
+                        <ImageIcon/>
+                    </IconButton>
+                    <IconButton color="inherit" onClick={handleInsertImageViewerButton} aria-label="Add Images">
+                        <CollectionsIcon/>
+                    </IconButton>
+
+
                 </div>
             </div>
 

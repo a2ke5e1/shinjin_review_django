@@ -17,7 +17,7 @@ import {Typography} from "@tiptap/extension-typography";
 import {ImageViewer} from "../../custom_tiptap_extensions/ImageViewer/ImageViewer";
 
 const CustomDocument = Document.extend({
-    content: 'heading horizontalRule paragraph  block*',
+    content: 'heading block*',
 })
 
 
