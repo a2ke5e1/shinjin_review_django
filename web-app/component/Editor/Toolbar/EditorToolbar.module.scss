@@ -1,13 +1,9 @@
-$tools-container-border-color: #3d3d3d;
-$tools-container-background: #fffefe;
 %tools-container {
   border-radius: 1rem;
   width: 180px;
   padding: 10px;
   border-style: solid;
   border-width: 1px;
-  border-color: $tools-container-border-color;
-  background-color: $tools-container-background;
 }
 
 
@@ -16,38 +12,29 @@ $tools-container-background: #fffefe;
   flex-direction: column;
   gap: 15px;
 }
-
 .font-style-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
   @extend %tools-container;
 }
-
 .info-container {
   display: flex;
   flex-direction: column;
   gap: 5px;
   @extend %tools-container;
 }
-
 .secondary-tools-container {
   @extend %tools-container;
 }
-
-
-
 .font-style-container > div {
   display: flex;
   justify-content: space-between;
 }
-
-
 .secondary-tools-container > div {
   gap: 2px;
   justify-content: space-between;
 }
-
 .font-color-container {
   display: flex;
 }

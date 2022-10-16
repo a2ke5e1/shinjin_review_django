@@ -4,6 +4,7 @@ import {useState} from "react";
 import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
 import EditorToolbar from "./Toolbar/EditorToolbar";
+import {Box, Paper} from "@mui/material";
 
 
 export default function TipTap() {
@@ -46,19 +47,21 @@ export default function TipTap() {
 
     return (
         <>
-            <div className={styles["main-container"]}>
+            <Paper className={styles["main-container"]}>
                 <EditorToolbar editor={editor}
                                setLinkDialogBoxOpen={setLinkDialogBoxOpen}
                                setTwitterDialogBoxOpen={setTwitterDialogBoxOpen}
-                                setYoutubeDialogBoxOpen={setYoutubeDialogBoxOpen}
+                               setYoutubeDialogBoxOpen={setYoutubeDialogBoxOpen}
                 />
-                <div className={styles["editor-container"]}>
+
+                <Paper elevation={4} className={styles["editor-container"]}>
                     <EditorContent editor={editor}/>
-                </div>
+                </Paper>
+
                 <div className={styles["editor-other-info"]}>
 
                 </div>
-            </div>
+            </Paper>
             <InsertDialogBox
                 editor={editor}
                 getState={twitterDialogBoxOpen}
