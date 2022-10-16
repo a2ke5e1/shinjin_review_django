@@ -168,7 +168,7 @@ const EditorToolbar = ({
                         </Select>
                     </FormControl>
                 </Box>
-                <div>
+                <div className={styles["font-color-container"]}>
                     <Tooltip title={"Font Color"}>
                         <input
                             type="color"

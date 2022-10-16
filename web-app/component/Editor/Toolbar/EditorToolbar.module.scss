@@ -1,15 +1,32 @@
 
-
 .tools-container {
   position: absolute;
   left: 10px;
 }
 
-.font-style-container {
+.font-style-container  {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   width: 180px;
   padding: 10px;
   border-radius: 1rem;
   background-color: #e0e0e0;
+}
+
+.font-style-container > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.secondary-tools-container > div {
+  gap: 2px;
+  justify-content: space-between;
+}
+
+.font-color-container {
+  display: flex;
 }
 
 .secondary-tools-container {
