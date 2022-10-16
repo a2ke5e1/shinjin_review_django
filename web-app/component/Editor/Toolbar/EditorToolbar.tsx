@@ -8,12 +8,12 @@ import {
     MenuItem,
     Select,
     SelectChangeEvent,
-    Tooltip
+    Tooltip, Typography
 } from "@mui/material";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
-import {FormatColorReset, FormatStrikethrough, InsertLink} from "@mui/icons-material";
+import {FormatColorReset, FormatStrikethrough, InfoOutlined, InsertLink} from "@mui/icons-material";
 import React, {useCallback, useEffect, useState} from "react";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import YouTubeIcon from "@mui/icons-material/YouTube";
@@ -149,9 +149,20 @@ const EditorToolbar = ({
 
     return (
         <div className={styles["tools-container"]}>
-            <div className={styles["font-style-container"]} >
+            <Box className={styles["info-container"]}>
+                <Tooltip title={"Info"}>
+                    <InfoOutlined/>
+                </Tooltip>
+                <Typography variant="body1">
+                    {editor?.storage.characterCount.characters()} Characters
+                </Typography>
+                <Typography variant="body1">
+                    {editor?.storage.characterCount.words()} Words
+                </Typography>
+            </Box>
+            <Box className={styles["font-style-container"]}>
                 <Box>
-                    <FormControl fullWidth sx={{ mt: 1 }}>
+                    <FormControl fullWidth sx={{mt: 1}}>
                         <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -241,12 +252,12 @@ const EditorToolbar = ({
                 <div>
                     <TextAlignmentContainer editor={editor}/>
                 </div>
-            </div>
-            <div className={styles["secondary-tools-container"]}>
+            </Box>
+            <Box className={styles["secondary-tools-container"]}>
                 <Box>
                     <HeadingLevelContainer editor={editor}/>
                 </Box>
-                <Divider />
+                <Divider/>
                 <Box>
                     <Tooltip title={"Link"}>
                         <IconButton onClick={handleInsertLinkButton} sx={{
@@ -282,7 +293,7 @@ const EditorToolbar = ({
                         </IconButton>
                     </Tooltip>
                 </Box>
-            </div>
+            </Box>
         </div>
     )
 }
