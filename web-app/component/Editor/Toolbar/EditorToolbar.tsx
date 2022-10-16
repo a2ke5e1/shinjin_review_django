@@ -1,10 +1,20 @@
 import styles from "./EditorToolbar.module.scss";
-import {FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip} from "@mui/material";
+import {
+    Box,
+    Divider,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    Tooltip
+} from "@mui/material";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import {FormatColorReset, FormatStrikethrough, InsertLink} from "@mui/icons-material";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -139,26 +149,25 @@ const EditorToolbar = ({
 
     return (
         <div className={styles["tools-container"]}>
-
-            <div>
-                <FormControl sx={{mt: 2}}>
-                    <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={selectedFont}
-                        label="Font Family"
-                        onChange={handleChange}
-                    >
-                        {fontList.map((value) => {
-                            return <MenuItem key={value.label} value={value.value} sx={{
-                                fontFamily: value.value
-                            }}>{value.label}</MenuItem>;
-                        })}
-                    </Select>
-                </FormControl>
-            </div>
-            <div>
+            <div className={styles["font-style-container"]} >
+                <Box>
+                    <FormControl fullWidth sx={{ mt: 1 }}>
+                        <InputLabel id="demo-simple-select-label">Font Family</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={selectedFont}
+                            label="Font Family"
+                            onChange={handleChange}
+                        >
+                            {fontList.map((value) => {
+                                return <MenuItem key={value.label} value={value.value} sx={{
+                                    fontFamily: value.value
+                                }}>{value.label}</MenuItem>;
+                            })}
+                        </Select>
+                    </FormControl>
+                </Box>
                 <div>
                     <Tooltip title={"Font Color"}>
                         <input
@@ -232,10 +241,13 @@ const EditorToolbar = ({
                 <div>
                     <TextAlignmentContainer editor={editor}/>
                 </div>
-                <div>
+            </div>
+            <div className={styles["secondary-tools-container"]}>
+                <Box>
                     <HeadingLevelContainer editor={editor}/>
-                </div>
-                <div>
+                </Box>
+                <Divider />
+                <Box>
                     <Tooltip title={"Link"}>
                         <IconButton onClick={handleInsertLinkButton} sx={{
                             color: editor?.isActive('link') ? "black" : ""
@@ -260,16 +272,16 @@ const EditorToolbar = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={"Insert Image"}>
-                          <IconButton onClick={addImage} aria-label="Add Image">
-                        <ImageIcon/>
-                    </IconButton>
+                        <IconButton onClick={addImage} aria-label="Add Image">
+                            <ImageIcon/>
+                        </IconButton>
                     </Tooltip>
                     <Tooltip title={"Insert Images"}>
                         <IconButton onClick={handleInsertImageViewerButton} aria-label="Add Images">
                             <CollectionsIcon/>
                         </IconButton>
                     </Tooltip>
-                </div>
+                </Box>
             </div>
         </div>
     )

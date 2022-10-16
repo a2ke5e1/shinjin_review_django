@@ -1,14 +1,25 @@
+
+
 .tools-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 50px;
-    gap: 10px;
-    background-color: #e0e0e0;
+  position: absolute;
+  left: 10px;
 }
+
+.font-style-container {
+  width: 180px;
+  padding: 10px;
+  border-radius: 1rem;
+  background-color: #e0e0e0;
+}
+
+.secondary-tools-container {
+  margin-top: 10px;
+  border-radius: 1rem;
+  width: 180px;
+  padding: 10px;
+  background-color: #e0e0e0;
+}
+
+
+
+
