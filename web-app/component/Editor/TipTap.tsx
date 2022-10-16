@@ -45,22 +45,21 @@ export default function TipTap() {
     }
 
     return (
-        <div className={styles["main-container"]}>
-
-            <EditorToolbar editor={editor}
-                           setLinkDialogBoxOpen={setLinkDialogBoxOpen}
-                           setTwitterDialogBoxOpen={setTwitterDialogBoxOpen}
-                           setYoutubeDialogBoxOpen={setYoutubeDialogBoxOpen}
-            />
-
-            <div className={styles["editor-container"]}>
-                <EditorContent editor={editor}/>
+        <>
+            <div className={styles["main-container"]}>
+                <EditorToolbar editor={editor}
+                               setLinkDialogBoxOpen={setLinkDialogBoxOpen}
+                               setTwitterDialogBoxOpen={setTwitterDialogBoxOpen}
+                                setYoutubeDialogBoxOpen={setYoutubeDialogBoxOpen}
+                />
+                <div className={styles["editor-container"]}>
+                    <EditorContent editor={editor}/>
+                </div>
+                <div className={styles["editor-other-info"]}>
+                    {editor?.storage.characterCount.characters()} Characters<br/>
+                    {editor?.storage.characterCount.words()} Words
+                </div>
             </div>
-            <div className={styles["editor-other-info"]}>
-                {editor?.storage.characterCount.characters()} Characters<br/>
-                {editor?.storage.characterCount.words()} Words
-            </div>
-
             <InsertDialogBox
                 editor={editor}
                 getState={twitterDialogBoxOpen}
@@ -88,6 +87,6 @@ export default function TipTap() {
                 label={"URL"}
                 insertBlock="link"
             />
-        </div>
+        </>
     )
 }
