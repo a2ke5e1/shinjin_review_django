@@ -1,6 +1,6 @@
 %tools-container {
   border-radius: 1rem;
-  width: 180px;
+  width: 250px;
   padding: 10px;
   border-style: solid;
   border-width: 1px;
@@ -10,6 +10,7 @@
 .tools-container {
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
   gap: 15px;
 }
 .font-style-container {

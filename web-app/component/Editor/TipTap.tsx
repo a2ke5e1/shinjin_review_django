@@ -65,9 +65,9 @@ export default function TipTap() {
           </Paper>
 
         </Paper>
-        <div className={styles["editor-other-info"]}>
+        <Paper className={styles["editor-other-info"]}>
 
-        </div>
+        </Paper>
       </Paper>
       <InsertDialogBox
         editor={editor}
