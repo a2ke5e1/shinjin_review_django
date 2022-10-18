@@ -5,9 +5,13 @@ import Extensions from "./TipTapExtensions";
 import InsertDialogBox from "../DialogBox/InsertDialogBox";
 import EditorToolbar from "./Toolbar/EditorToolbar";
 import {Box, Paper, useMediaQuery} from "@mui/material";
+import MetadataEditor from "./MetadataEditor/MetadataEditor";
 
 
 export default function TipTap() {
+
+
+
   const editor = useEditor({
     extensions: Extensions,
     onUpdate: ({editor}) => {
@@ -15,23 +19,7 @@ export default function TipTap() {
 
 
       window.localStorage.setItem("docs", JSON.stringify(json))
-      // @ts-ignore
-      var t = ""
-      try {
-        // @ts-ignore
-        json.content?.at(0).content.forEach(
-          (e) => {
-            t += e.text
-          }
-        )
-      } catch (e) {
 
-      }
-      window.localStorage.setItem("metadata", JSON.stringify(
-        {
-          "title": t
-        }
-      ))
 
     }
   })
@@ -55,19 +43,22 @@ export default function TipTap() {
                        setTwitterDialogBoxOpen={setTwitterDialogBoxOpen}
                        setYoutubeDialogBoxOpen={setYoutubeDialogBoxOpen}
         />
-        <Paper elevation={4}>
+        <Paper elevation={4} sx={{
+
+          width: "55vw",
+          maxWidth: "50%",
+          minWidth: "550px"
+        }}>
 
           <Paper elevation={0} sx={{
             backgroundColor: "editor.main"
-          }
-          }>
-            <EditorContent editor={editor} className={styles["editor-container"]}/>
+          }}
+                 className={styles["editor-container"]}>
+            <EditorContent editor={editor}/>
           </Paper>
 
         </Paper>
-        <Paper className={styles["editor-other-info"]}>
-
-        </Paper>
+        <MetadataEditor editor={editor}/>
       </Paper>
       <InsertDialogBox
         editor={editor}
