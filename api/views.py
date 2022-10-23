@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
-from api.serializers import UserSerializer, GroupSerializer, CommentSerializer, PostSerializer, CategorySerializer
+from api.serializers import UserSerializer, GroupSerializer, CommentReadSerializer, PostReadSerializer, \
+    CategoryReadSerializer, CategoryWriteSerializer, CommentWriteSerializer, PostWriteSerializer
 from api.models import Comment, Post, Category
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -19,21 +20,34 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-last_updated')
-    serializer_class = PostSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['slug']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_serializer_class(self):
+        if self.request.method == 'PUT' or self.request.method == 'POST':
+            return PostWriteSerializer
+        else:
+            return PostReadSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+    def get_serializer_class(self):
+        if self.request.method == 'PUT' or self.request.method == 'POST':
+            return CommentWriteSerializer
+        else:
+            return CommentReadSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['slug']
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def get_serializer_class(self):
+        if self.request.method == 'PUT' or self.request.method == 'POST':
+            return CategoryWriteSerializer
+        else:
+            return CategoryReadSerializer
