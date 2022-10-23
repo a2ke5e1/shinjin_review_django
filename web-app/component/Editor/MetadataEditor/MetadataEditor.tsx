@@ -5,15 +5,21 @@ import React, {useMemo} from "react";
 
 interface MetadataEditorProps {
   editor: Editor,
+  title: string,
+  category: string,
+  handleTitleChange: any,
+  handleCategoriesChanges: any
+
 }
 
-const MetadataEditor = ({editor}: MetadataEditorProps) => {
+const MetadataEditor = ({
+                          editor,
+                          title,
+                          handleTitleChange,
+                          category,
+                          handleCategoriesChanges
+                        }: MetadataEditorProps) => {
 
-  const [categories, setCategories] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setCategories(event.target.value as string);
-  };
 
   return (
     <Box sx={{display: "flex", flexDirection: "column", gap: 2, mr: 2}}>
@@ -30,10 +36,14 @@ const MetadataEditor = ({editor}: MetadataEditorProps) => {
         />
         <CardContent>
           <TextField fullWidth label="Title" variant="outlined"
+                     placeholder={"Write a title"}
+                     value={title}
+                     onChange={handleTitleChange}
                      InputLabelProps={{shrink: true}}
           />
           <TextField fullWidth label="Description" variant="outlined" multiline
                      InputLabelProps={{shrink: true}}
+                     placeholder={"Write a short description."}
                      rows={4} sx={{mt: 2}}/>
         </CardContent>
       </Card>
@@ -44,9 +54,9 @@ const MetadataEditor = ({editor}: MetadataEditorProps) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={categories}
+              value={category}
               label="Categories"
-              onChange={handleChange}
+              onChange={handleCategoriesChanges}
             >
               <MenuItem value={4}>Video Games</MenuItem>
               <MenuItem value={5}>Technology</MenuItem>

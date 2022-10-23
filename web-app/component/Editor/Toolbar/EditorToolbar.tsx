@@ -226,31 +226,39 @@ const EditorToolbar = ({
         </div>
         <div>
           <Tooltip title={"Bold"}>
-            <IconButton onClick={() => editor?.chain().focus().toggleBold().run()} sx={{
-              color: editor?.isActive('bold') ? "black" : ""
-            }} disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
+            <IconButton onClick={() => editor?.chain().focus().toggleBold().run()}
+                        sx={{
+                          color: editor?.isActive('bold') ? "black" : ""
+                        }}
+                        disabled={!editor?.can().chain().focus().toggleBold().run()} aria-label="Make Text Bold">
               <FormatBoldIcon/>
             </IconButton>
           </Tooltip>
           <Tooltip title={"Italic"}>
-            <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()} sx={{
-              color: editor?.isActive('italic') ? "black" : ""
-            }} disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
+            <IconButton onClick={() => editor?.chain().focus().toggleItalic().run()}
+                        sx={{
+                          color: editor?.isActive('italic') ? "black" : ""
+                        }}
+                        disabled={!editor?.can().chain().focus().toggleItalic().run()} aria-label="Make Text Italic">
               <FormatItalicIcon/>
             </IconButton>
           </Tooltip>
           <Tooltip title={"Underline"}>
-            <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()} sx={{
-              color: editor?.isActive('underline') ? "black" : ""
-            }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+            <IconButton onClick={() => editor?.chain().focus().toggleUnderline().run()}
+                        sx={{
+                          color: editor?.isActive('underline') ? "black" : ""
+                        }}
+                        disabled={!editor?.can().chain().focus().toggleUnderline().run()}
                         aria-label="Make Text Underline">
               <FormatUnderlinedIcon/>
             </IconButton>
           </Tooltip>
           <Tooltip title={"Strike Through"}>
-            <IconButton onClick={() => editor?.chain().focus().toggleStrike().run()} sx={{
-              color: editor?.isActive('strike') ? "black" : ""
-            }} disabled={!editor?.can().chain().focus().toggleUnderline().run()}
+            <IconButton onClick={() => editor?.chain().focus().toggleStrike().run()}
+                        sx={{
+                          color: editor?.isActive('strike') ? "black" : ""
+                        }}
+                        disabled={!editor?.can().chain().focus().toggleUnderline().run()}
                         aria-label="Strike Text">
               <FormatStrikethrough/>
             </IconButton>
