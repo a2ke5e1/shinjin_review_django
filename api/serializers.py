@@ -25,7 +25,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
         depth = 1
-        fields = '__all__'
+        fields = ['id', 'url', 'name','slug', 'description', 'post']
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
