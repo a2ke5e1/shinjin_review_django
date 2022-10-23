@@ -2,9 +2,12 @@ import {Editor} from "@tiptap/react";
 import {Box, Button, Card, CardActions, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography} from "@mui/material";
 import styles from './metadata.module.scss'
 import React, {useMemo} from "react";
+import CategoriesProps from "../../../props/CategoryProps";
+import Link from "next/link";
 
 interface MetadataEditorProps {
   editor: Editor,
+  categories: Array<CategoriesProps>
   title: string,
   category: string,
   handleTitleChange: any,
@@ -14,6 +17,7 @@ interface MetadataEditorProps {
 
 const MetadataEditor = ({
                           editor,
+                          categories,
                           title,
                           handleTitleChange,
                           category,
@@ -58,9 +62,13 @@ const MetadataEditor = ({
               label="Categories"
               onChange={handleCategoriesChanges}
             >
-              <MenuItem value={4}>Video Games</MenuItem>
-              <MenuItem value={5}>Technology</MenuItem>
-              <MenuItem value={6}>Game Zone</MenuItem>
+              {categories.map((element: CategoriesProps) => {
+                return (
+                  <MenuItem key={element.id} value={element.id}>
+                    {element.name}
+                  </MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </CardContent>

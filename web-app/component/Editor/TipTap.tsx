@@ -6,9 +6,14 @@ import InsertDialogBox from "../DialogBox/InsertDialogBox";
 import EditorToolbar from "./Toolbar/EditorToolbar";
 import {Box, Paper, SelectChangeEvent, useMediaQuery} from "@mui/material";
 import MetadataEditor from "./MetadataEditor/MetadataEditor";
+import {CategoriesResponse} from "../../props/CategoryProps";
 
 
-export default function TipTap() {
+export default function TipTap(
+  {
+    categories
+  }: CategoriesResponse
+) {
 
   // All the information about the blog
   const [currentCategory, setCategory] = React.useState('');
@@ -83,6 +88,7 @@ export default function TipTap() {
           </Paper>
         </Paper>
         <MetadataEditor editor={editor}
+                        categories={categories}
                         title={title}
                         handleTitleChange={handleTitleChange}
                         category={currentCategory}

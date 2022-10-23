@@ -10,6 +10,7 @@ export interface CategoriesResponse {
 
 
 export default interface CategoriesProps {
+    id: number
     url: string,
     name: string,
     description: string,
