@@ -7,6 +7,8 @@ import EditorToolbar from "./Toolbar/EditorToolbar";
 import {Box, Paper, SelectChangeEvent, useMediaQuery} from "@mui/material";
 import MetadataEditor from "./MetadataEditor/MetadataEditor";
 import {CategoriesResponse} from "../../props/CategoryProps";
+import Cookies from 'js-cookie'
+import axios from "axios";
 
 
 export default function TipTap(
@@ -27,6 +29,33 @@ export default function TipTap(
     setCategory(event.target.value as string);
   };
 
+  const handlePublishButton = () => {
+    const csrftoken = Cookies.get('csrftoken');
+    const config = {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+      }
+    }
+
+    const body = {
+      title: title,
+      slug: title.replaceAll(' ', '-').toLowerCase().replaceAll('?', ''),
+      category: currentCategory,
+      content: JSON.stringify(editor?.getJSON()),
+      published: 1,
+      published_on: "2022-10-13 22:52:00",
+      last_updated: "2022-10-13 22:52:00",
+    }
+
+    // This is one to create a new post
+    // const res = axios.post('http://localhost:8000/posts/', body, config)
+
+    // This is one to update an existing post
+    const res = axios.put('http://localhost:8000/posts/', body, config)
+
+  }
 
   const editor = useEditor({
     extensions: Extensions,
@@ -93,6 +122,7 @@ export default function TipTap(
                         handleTitleChange={handleTitleChange}
                         category={currentCategory}
                         handleCategoriesChanges={handleChange}
+                        handlePublishButton={handlePublishButton}
         />
       </Paper>
       <InsertDialogBox

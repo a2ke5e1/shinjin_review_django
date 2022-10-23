@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from api.models import  Post, Comment, Category
+from api.models import Post, Comment, Category
 from django.core import serializers as coreserializers
 
 
@@ -15,11 +15,13 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ['url', 'name']
 
+
 class CommentReadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
         depth = 1
         fields = '__all__'
+
 
 class CommentWriteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -28,24 +30,41 @@ class CommentWriteSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PostReadSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
+    # user = UserSerializer()
+
     class Meta:
         model = Post
         depth = 1
-        fields = ['id', 'url', 'slug', 'title', 'description', 'published', 'published_on', 'last_updated', 'content', 'user']
+        fields = [
+            'id',
+            'url',
+            'slug',
+            'title',
+            'description',
+            'published',
+            'published_on',
+            'last_updated',
+            'content',
+           # 'user'
+        ]
+
 
 class PostWriteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
         fields = '__all__'
+
+
 class CategoryReadSerializer(serializers.HyperlinkedModelSerializer):
     post = PostReadSerializer(many=True)
+
     class Meta:
         model = Category
         depth = 1
-        fields = ['id', 'url', 'name','slug', 'description', 'post']
+        fields = ['id', 'url', 'name', 'slug', 'description', 'post']
+
 
 class CategoryWriteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'url', 'name','slug', 'description', 'post']
+        fields = ['id', 'url', 'name', 'slug', 'description', 'post']

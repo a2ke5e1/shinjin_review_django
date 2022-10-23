@@ -22,7 +22,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-last_updated')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['slug']
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.AllowAny]
 
     def get_serializer_class(self):
         if self.request.method == 'PUT' or self.request.method == 'POST':

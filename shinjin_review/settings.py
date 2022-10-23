@@ -25,6 +25,10 @@ SECRET_KEY = os.environ.get("DJANGO_SECERT_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000'
+]
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -38,6 +42,7 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     'rest_framework',
     'api',
+    'corsheaders',
     'django_filters',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,6 +53,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -11,7 +11,9 @@ interface MetadataEditorProps {
   title: string,
   category: string,
   handleTitleChange: any,
-  handleCategoriesChanges: any
+  handleCategoriesChanges: any,
+
+  handlePublishButton: any
 
 }
 
@@ -21,14 +23,15 @@ const MetadataEditor = ({
                           title,
                           handleTitleChange,
                           category,
-                          handleCategoriesChanges
+                          handleCategoriesChanges,
+                          handlePublishButton
                         }: MetadataEditorProps) => {
 
 
   return (
     <Box sx={{display: "flex", flexDirection: "column", gap: 2, mr: 2}}>
       <Box sx={{display: "flex", flexDirection: "row", gap: 2}}>
-        <Button variant="contained">Publish</Button>
+        <Button onClick={handlePublishButton} variant="contained">Publish</Button>
         <Button variant="outlined" color="secondary">Save as Draft</Button>
       </Box>
       <Card elevation={0} variant="outlined" sx={{backgroundColor: "editor.toolbar", borderColor: 'editor.stroke', borderRadius: 5}}>

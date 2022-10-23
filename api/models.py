@@ -30,7 +30,7 @@ class Post(models.Model):
     )
 
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     slug = models.CharField(max_length=255, default="", null=True)
