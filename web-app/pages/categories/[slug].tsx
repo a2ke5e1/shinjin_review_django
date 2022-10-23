@@ -32,6 +32,9 @@ const Category = ({category}: CategoryResponse) => {
 
 export async function getServerSideProps({query: {slug}}: QueryProp) {
     const {data} = await axios.get(`http://localhost:8000/categories?slug=${slug}`)
+
+
+
     const category = data.results[0] || null
 
     if (category == null) {

@@ -67,7 +67,7 @@ const MetadataEditor = ({
             >
               {categories.map((element: CategoriesProps) => {
                 return (
-                  <MenuItem key={element.id} value={element.id}>
+                  <MenuItem key={element.id} value={element.url}>
                     {element.name}
                   </MenuItem>
                 )

@@ -40,6 +40,7 @@ class PostReadSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'slug',
             'title',
+      #      'category',
             'description',
             'published',
             'published_on',
@@ -57,7 +58,6 @@ class PostWriteSerializer(serializers.HyperlinkedModelSerializer):
 
 class CategoryReadSerializer(serializers.HyperlinkedModelSerializer):
     post = PostReadSerializer(many=True)
-
     class Meta:
         model = Category
         depth = 1
@@ -67,4 +67,4 @@ class CategoryReadSerializer(serializers.HyperlinkedModelSerializer):
 class CategoryWriteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'url', 'name', 'slug', 'description', 'post']
+        fields = ['url', 'name', 'slug', 'description','post' ]

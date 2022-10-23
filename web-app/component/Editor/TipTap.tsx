@@ -7,7 +7,7 @@ import EditorToolbar from "./Toolbar/EditorToolbar";
 import {Box, Paper, SelectChangeEvent, useMediaQuery} from "@mui/material";
 import MetadataEditor from "./MetadataEditor/MetadataEditor";
 import {CategoriesResponse} from "../../props/CategoryProps";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import axios from "axios";
 
 
@@ -42,18 +42,28 @@ export default function TipTap(
     const body = {
       title: title,
       slug: title.replaceAll(' ', '-').toLowerCase().replaceAll('?', ''),
-      category: currentCategory,
       content: JSON.stringify(editor?.getJSON()),
-      published: 1,
+      published: 2,
       published_on: "2022-10-13 22:52:00",
       last_updated: "2022-10-13 22:52:00",
     }
 
     // This is one to create a new post
-    // const res = axios.post('http://localhost:8000/posts/', body, config)
+    const res = axios.post('http://localhost:8000/posts/', body, config)
+
+    res.then((response) => {
+      const postUrl = response.data.url
+
+      const body2 = {
+        post: [postUrl],
+      }
+
+      axios.put(currentCategory, body2, config)
+
+    })
 
     // This is one to update an existing post
-    const res = axios.put('http://localhost:8000/posts/', body, config)
+    // const res = axios.put('http://localhost:8000/posts/5/', body, config)
 
   }
 
