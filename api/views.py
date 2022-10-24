@@ -42,7 +42,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             return CommentReadSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('name')
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['slug']
     permission_classes = [permissions.AllowAny]
