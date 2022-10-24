@@ -1,26 +1,31 @@
 import {NextPage} from "next";
 import axios from "axios";
-import {CategoryResponse} from "../../props/CategoryProps";
 import {QueryProp} from "../../props/RoutingProps";
+import {PostsResponse} from "../../props/PostProps";
+import Link from "next/link";
 
 
-const Category = ({category}: CategoryResponse) => {
+const Category = ({posts}: PostsResponse) => {
 
     return (
         <div>
-            <h1>{category.name}</h1>
+            <h1>{posts[0].category?.[0].name}</h1>
             {
-                category.post.map(
+                posts.map(
                     (p) => {
                         return (
                             <div key={p.slug}>
-                                <div>{p.title}</div>
-                                <div>{p.description}</div>
-                                <div>{p.published_on}</div>
-                                <div>{p.last_updated}</div>
-                                <div></div>
-                                <br/>
-                                <br/>
+                                <Link href={`/posts/${p.slug}`}>
+                                   <div>
+                                       <div>{p.title}</div>
+                                       <div>{p.description}</div>
+                                       <div>{p.published_on}</div>
+                                       <div>{p.last_updated}</div>
+                                       <div></div>
+                                       <br/>
+                                       <br/>
+                                   </div>
+                                </Link>
                             </div>
                         )
                     }
@@ -31,13 +36,13 @@ const Category = ({category}: CategoryResponse) => {
 }
 
 export async function getServerSideProps({query: {slug}}: QueryProp) {
-    const {data} = await axios.get(`http://localhost:8000/categories?slug=${slug}`)
+    const {data} = await axios.get(`http://localhost:8000/posts/?&category__slug=${slug}`)
 
 
 
-    const category = data.results[0] || null
+    const posts = data.results || null
 
-    if (category == null) {
+    if (posts == null) {
         return {
             notFound: true
         }
@@ -45,7 +50,7 @@ export async function getServerSideProps({query: {slug}}: QueryProp) {
 
     return {
         props: {
-            category: category
+            posts: posts
         }
     }
 }

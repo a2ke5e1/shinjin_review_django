@@ -1,8 +1,5 @@
 import PostProps from "./PostProps";
 
-export interface CategoryResponse {
-    category: CategoriesProps
-}
 
 export interface CategoriesResponse {
     categories: Array<CategoriesProps>

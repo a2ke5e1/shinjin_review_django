@@ -18,9 +18,7 @@ const Home = ({post}: PostResponse) => {
     })
     console.log(post.content)
     editor?.commands.setContent(
-        JSON.parse(
-            post.content
-        )
+        post.content
     )
 
 
