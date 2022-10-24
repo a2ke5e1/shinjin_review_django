@@ -21,7 +21,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-last_updated')
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['slug', 'category__slug']
+    filterset_fields = ['slug', 'category__slug', 'published']
     permission_classes = [permissions.AllowAny]
 
     def get_serializer_class(self):

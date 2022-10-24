@@ -2,6 +2,7 @@ import {NextPage} from "next";
 import axios from "axios";
 import CategoriesProps, {CategoriesResponse} from "../../props/CategoryProps";
 import Link from "next/link";
+import {Typography} from "@mui/material";
 
 
 
@@ -13,15 +14,19 @@ function Categories({categories}: CategoriesResponse) {
                     <div key={element.name}>
                         <div>
                             <Link href={`categories/${element.slug}`}>
-                                {
-                                    element.name
-                                }
+                                <Typography>
+                                    {
+                                        element.name
+                                    }
+                                </Typography>
                             </Link>
                         </div>
                         <div>
-                            {
-                                element.description
-                            }
+                            <Typography>
+                                {
+                                    element.description
+                                }
+                            </Typography>
                         </div>
 
                         <br/>

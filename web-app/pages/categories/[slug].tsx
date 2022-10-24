@@ -3,13 +3,14 @@ import axios from "axios";
 import {QueryProp} from "../../props/RoutingProps";
 import {PostsResponse} from "../../props/PostProps";
 import Link from "next/link";
+import {Typography} from "@mui/material";
 
 
 const Category = ({posts}: PostsResponse) => {
 
     return (
         <div>
-            <h1>{posts[0].category?.[0].name}</h1>
+            <Typography variant={"h1"} >{posts[0].category?.[0].name}</Typography>
             {
                 posts.map(
                     (p) => {
@@ -36,7 +37,7 @@ const Category = ({posts}: PostsResponse) => {
 }
 
 export async function getServerSideProps({query: {slug}}: QueryProp) {
-    const {data} = await axios.get(`http://localhost:8000/posts/?&category__slug=${slug}`)
+    const {data} = await axios.get(`http://localhost:8000/posts/?&category__slug=${slug}&published=2`)
 
 
 
