@@ -26,7 +26,7 @@ export default props => {
     }
 
     return (
-        <NodeViewWrapper className="image-viewer-embed">
+        <NodeViewWrapper draggable="true"  data-drag-handle="" className="image-viewer-embed">
             <ImageList cols={imageListCol} sx={{ p: 0 }}>
                 {artwork.map((item) => (
                     <ImageListItem key={item.alt}>
