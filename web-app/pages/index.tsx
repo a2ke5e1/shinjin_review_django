@@ -13,7 +13,7 @@ const Home: NextPage<CategoriesResponse> = ({categories}: CategoriesResponse) =>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <main>
-        <TipTap categories={categories} />
+        <TipTap categories={categories}/>
       </main>
     </div>
   )
@@ -21,10 +21,17 @@ const Home: NextPage<CategoriesResponse> = ({categories}: CategoriesResponse) =>
 export default Home
 
 export async function getServerSideProps() {
-  const {data} = await axios.get('http://localhost:8000/categories/')
+   const data = await axios.get('http://localhost:8000/categories/')
+    .then((response) => {
+        return response.data
+    })
+    .catch((error) => {
+      console.log(error.message)
+    })
+
   return {
     props: {
-      categories: data.results
+      categories: data?.results || []
     }
   }
 }
