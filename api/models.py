@@ -10,7 +10,7 @@ class Comment(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    post = models.ManyToManyField('Post', blank=True)
+    # post = models.ManyToManyField('Post', blank=True)
     slug = models.CharField(max_length=255, default="", null=True)
 
     class Meta:
@@ -33,10 +33,10 @@ class Post(models.Model):
     # user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    # category = models.ManyToManyField('Category')
+    category = models.ManyToManyField('Category')
     slug = models.CharField(max_length=255, default="", null=True)
     published = models.IntegerField(choices=PUBLISHED_CHOICES, default=DRAFT)
     published_on = models.DateTimeField()
     last_updated = models.DateTimeField()
-    content = models.TextField()
+    content = models.JSONField()
 
